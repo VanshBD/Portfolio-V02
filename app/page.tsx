@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { OrganismProvider } from '@/context/OrganismContext'
+import { getDeviceTier } from '@/lib/deviceTier'
 
 // LoadingSequence uses Three.js + Tone.js — client-only.
 // Loaded with ssr:false so those modules never evaluate on the server.
@@ -10,12 +12,20 @@ const LoadingSequence = dynamic(
   { ssr: false }
 )
 
-// ─── TEMPORARY PROMPT-02 TEST HARNESS ─────────
-// The full phase machine + OrganismCanvas wiring is built in
-// Prompt 10. For now this just drives the birth sequence so it
-// can be seen running, and logs onComplete.
+// OrganismCanvas renders a WebGL <Canvas> — client-only as well.
+const OrganismCanvas = dynamic(
+  () => import('@/components/organism/OrganismCanvas'),
+  { ssr: false }
+)
+
+// ─── TEMPORARY HARNESS (Prompts 02–03) ────────
+// The full phase machine lives in Prompt 10. For now this drives
+// the birth sequence, then mounts the living organism inside the
+// OrganismProvider so the breath / pulse / zoom / thermal systems
+// are wired and verifiable.
 export default function HomePage() {
   const [phase, setPhase] = useState<'black' | 'birth' | 'alive'>('black')
+  const [deviceTier] = useState(getDeviceTier)
 
   // After 300ms black screen → birth:
   useEffect(() => {
@@ -35,13 +45,9 @@ export default function HomePage() {
       )}
 
       {phase === 'alive' && (
-        <p style={{
-          color: '#00C8FF',
-          fontFamily: 'monospace',
-          padding: 24
-        }}>
-          THE ORGANISM — birth complete (Prompt 02). Phase: alive.
-        </p>
+        <OrganismProvider deviceTier={deviceTier}>
+          <OrganismCanvas />
+        </OrganismProvider>
       )}
     </main>
   )
