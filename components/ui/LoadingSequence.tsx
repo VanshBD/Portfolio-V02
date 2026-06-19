@@ -313,30 +313,41 @@ export default function LoadingSequence({
     return () => clearTimeout(t)
   }, [deviceTier])
 
-  // Skip sound (brief tone):
-  const playBirthTone = useCallback(
-    async (frequency: number, duration: number) => {
-    try {
-      // Tone.js requires user gesture first.
-      // Birth sequence starts from page load
-      // so we attempt but don't force:
-      if (Tone.getContext().state === 'running') {
-        const synth = new Tone.Synth({
-          oscillator: { type: 'sine' },
-          envelope: {
-            attack: 0.01, decay: 0.1,
-            sustain: 0.5, release: 0.3
-          },
-          volume: -20,
-        }).toDestination()
-        synth.triggerAttackRelease(
-          frequency, duration + 's')
-        setTimeout(() => synth.dispose(),
-          (duration + 0.5) * 1000)
+  // Birth sequence audio (BUG 02 fix).
+  // Driven by plain timeouts here in LoadingSequence — BirthScene
+  // lives inside the Canvas and can't reach this. The audio context
+  // won't be running on first load (no user gesture yet), so this
+  // silently does nothing then. It only plays if the visitor already
+  // enabled audio on a previous visit (the context stays running).
+  useEffect(() => {
+    const attemptTones = async () => {
+      try {
+        // Only attempt if audio context already running
+        // (won't be on first load — that's expected)
+        if (Tone.getContext().state !== 'running') return
+
+        // Frame 0.3s: single genesis tone
+        setTimeout(async () => {
+          const synth = new Tone.Synth({
+            volume: -22
+          }).toDestination()
+          synth.triggerAttackRelease(80, '0.2s')
+          setTimeout(() => synth.dispose(), 500)
+        }, 300)
+
+        // Frame 0.8s: division chord
+        setTimeout(async () => {
+          const synth = new Tone.PolySynth().toDestination()
+          synth.volume.value = -24
+          synth.triggerAttackRelease([80, 100], '0.25s')
+          setTimeout(() => synth.dispose(), 600)
+        }, 800)
+      } catch {
+        // Silent fail always — audio is enhancement only
       }
-    } catch {
-      // Silent fail — audio is enhancement only
     }
+
+    attemptTones()
   }, [])
 
   const handleSkip = useCallback(() => {
