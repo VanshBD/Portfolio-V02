@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── TAILWIND v4 THEME ───────────────────────
+   Adapted from Prompt 01 STEP 08 (tailwind.config.ts).
+   Tailwind v4 has no JS config — design tokens live here.
+   Colors generate utilities: bg-void, text-neural, etc.
+   Animations generate: animate-breath, animate-pulse-growth.
+   Easing generates: ease-organism.                          */
+@theme {
+  --color-void:         #04080F;
+  --color-membrane:     #0A1628;
+  --color-dormant:      #111D35;
+  --color-neural:       #00C8FF;
+  --color-biolumen:     #6B2FEE;
+  --color-amber:        #FF7A2F;
+  --color-growth:       #00E87A;
+  --color-text-primary: #B8D4E8;
+  --color-text-dim:     #4A6B8A;
+
+  --ease-organism: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-breath:       breath 3.75s ease-in-out infinite;
+  --animate-pulse-growth: pulseGrowth 0.8s ease-out;
 }
 
+/* Fonts injected by next/font (see app/layout.tsx).
+   `inline` makes the utilities reference the live
+   --font-display / --font-mono vars set on <html>.          */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+  --font-mono:    var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes breath {
+  0%, 100% { transform: scale(1.000); }
+  56%      { transform: scale(1.030); }
+  64%      { transform: scale(1.030); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes pulseGrowth {
+  0%   { opacity: 0; transform: scale(0.9); }
+  50%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1.0); }
+}
+
+/* ─── CSS CUSTOM PROPERTIES ──────────────── */
+:root {
+  --color-void:      #04080F;
+  --color-membrane:  #0A1628;
+  --color-neural:    #00C8FF;
+  --color-biolumen:  #6B2FEE;
+  --color-amber:     #FF7A2F;
+  --color-growth:    #00E87A;
+  --color-text:      #B8D4E8;
+  --color-text-dim:  #4A6B8A;
+  --transition-organism: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET & BASE ───────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  /* No scroll — organism fills viewport */
+  overflow: hidden;
+  background-color: var(--color-void);
+  color: var(--color-text);
+
+  /* Apply fonts via CSS vars set by next/font */
+  font-family: var(--font-mono), monospace;
+}
+
+/* ─── HIDE SCROLLBAR COMPLETELY ─────────── */
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar { display: none; }
+/* Firefox */
+html { scrollbar-width: none; }
+/* IE */
+html { -ms-overflow-style: none; }
+
+/* ─── CUSTOM CURSOR ──────────────────────── */
+/* Hide system cursor — replaced by CustomCursor.tsx */
+* { cursor: none !important; }
+/* Re-enable on mobile (no hover available): */
+@media (hover: none) {
+  * { cursor: auto !important; }
+}
+
+/* ─── TEXT SELECTION ─────────────────────── */
+::selection {
+  background: rgba(0, 200, 255, 0.25);
+  color: var(--color-text);
+}
+
+/* ─── SEMANTIC SEO LAYER ─────────────────── */
+/* Invisible to humans, readable by crawlers */
+.sr-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* aria-hidden: false is set in JSX —
+     screen readers CAN read this */
+}
+
+/* ─── THREE.JS CANVAS ────────────────────── */
+canvas {
+  display: block;
+  outline: none;
+}
+
+/* ─── ORGANISM UI OVERLAYS ───────────────── */
+.organism-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+/* Children that need interaction re-enable it: */
+.organism-ui .interactive {
+  pointer-events: auto;
+}
+
+/* ─── FIELD NOTE ─────────────────────────── */
+.field-note {
+  position: fixed;
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(0, 200, 255, 0.25);
+  border-left: 3px solid rgba(0, 200, 255, 0.8);
+  border-radius: 0 4px 4px 4px;
+  padding: 12px 16px;
+  max-width: 280px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text);
+  pointer-events: none;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.06);
+}
+
+/* ─── GLOBAL TRANSITION DEFAULT ─────────── */
+/* Any element with data-organism-transition
+   gets the organism easing by default */
+[data-organism-transition] {
+  transition-timing-function:
+    var(--transition-organism);
 }
