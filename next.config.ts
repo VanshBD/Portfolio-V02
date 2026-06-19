@@ -12,6 +12,13 @@ import type { NextConfig } from 'next'
 // The three.js stack is still listed in `transpilePackages` so its
 // ESM internals transpile cleanly across the app.
 const nextConfig: NextConfig = {
+  // React StrictMode double-invokes mount/unmount in dev. For a
+  // Three.js / React-Three-Fiber app that manually manages WebGL
+  // contexts, geometries and materials, this causes disposal races
+  // and intermittent blank/incorrect renders. Disable it so dev
+  // matches production behavior (prod never double-mounts).
+  reactStrictMode: false,
+
   transpilePackages: [
     'three',
     '@react-three/fiber',
