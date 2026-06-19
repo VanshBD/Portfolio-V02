@@ -109,10 +109,11 @@ void main() {
 
   // ── VERTEX DISPLACEMENT ─────────────────
   // Displace each vertex outward along normal:
-  // noise: organic surface variation
+  // noise: organic surface variation (kept gentle so the
+  //   surface stays a smooth living blob, not a shattered shell)
   // breath: scale breathing
   vec3 displaced = position
-    + normal * combinedNoise * 0.14  // noise
+    + normal * combinedNoise * 0.05  // noise
     + normal * breathScale * 0.005;  // breath nudge
 
   // ── WORLD POSITION ─────────────────────
@@ -185,8 +186,8 @@ void main() {
   // (low fresnel) appear slightly lighter,
   // simulating light passing through tissue.
   // This gives the biological translucency feel.
-  float sss = (1.0 - vFresnel) * 0.12;
-  vec3 sssColor = vec3(0.0, 0.2, 0.4);
+  float sss = (1.0 - vFresnel) * 0.18;
+  vec3 sssColor = vec3(0.0, 0.28, 0.5);
   // Slightly blue interior light
   vec3 tissueColor = baseColor + sssColor * sss;
 
@@ -200,7 +201,7 @@ void main() {
   // Edges glow NEURAL_CYAN:
   // #00C8FF = vec3(0.0, 0.784, 1.0)
   vec3 edgeColor = vec3(0.0, 0.784, 1.0);
-  float edgeGlow = vFresnel * 0.4;
+  float edgeGlow = vFresnel * 0.6;
   vec3 withEdge = mix(tissueColor, edgeColor,
                       edgeGlow);
 

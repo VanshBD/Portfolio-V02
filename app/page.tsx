@@ -29,9 +29,10 @@ export default function HomePage() {
 
   // After 300ms black screen → birth:
   useEffect(() => {
+    if (phase !== 'black') return
     const t = setTimeout(() => setPhase('birth'), 300)
     return () => clearTimeout(t)
-  }, [])
+  }, [phase])
 
   return (
     <main>

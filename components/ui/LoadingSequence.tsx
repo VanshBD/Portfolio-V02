@@ -20,13 +20,15 @@ interface LoadingSequenceProps {
 // the organism silhouette. Cells migrate TO these.
 const generateOrganismTargets = (): THREE.Vector3[] => {
   const targets: THREE.Vector3[] = []
-  const width = window.innerWidth
-  const height = window.innerHeight
 
-  // Organism fills ~70% of viewport
-  // Center at (0,0), width ~0.7 of view
-  const orgW = Math.min(width, height) * 0.35
-  const orgH = orgW * 0.8
+  // World-space silhouette size. The birth camera sits at z=2
+  // with fov 60 (visible half-height ≈ 1.15 world units), so
+  // these coordinates keep the forming organism on-screen and
+  // filling ~70% of the viewport. (The original pixel-magnitude
+  // values sent the cells hundreds of units off-screen.)
+  const aspect = window.innerWidth / window.innerHeight
+  const orgH = 0.82
+  const orgW = orgH * (aspect < 1 ? 0.9 : 1.15)
 
   // The organism silhouette formula:
   // A modified superellipse with 7 bump perturbations
@@ -133,9 +135,9 @@ function BirthScene({
   const [startPositions] = useState<THREE.Vector3[]>(() =>
     Array.from({ length: cellCount }, () =>
       new THREE.Vector3(
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.1,
-        (Math.random() - 0.5) * 0.05
+        (Math.random() - 0.5) * 0.28,
+        (Math.random() - 0.5) * 0.28,
+        (Math.random() - 0.5) * 0.12
       )
     )
   )
@@ -186,8 +188,9 @@ function BirthScene({
     const progress = Math.min(elapsed / totalDuration, 1)
 
     // Migration phase: cells move to targets
-    // Migration starts at 62% of sequence:
-    const migrationStart = 0.62
+    // Migration starts at 45% of sequence (gives the organism
+    // silhouette more time to visibly form):
+    const migrationStart = 0.45
     const migrationEnd = 0.92
     const migrationProgress = Math.max(0,
       (progress - migrationStart) /
@@ -264,11 +267,13 @@ function BirthScene({
         />
       </bufferGeometry>
       <pointsMaterial
-        size={deviceTier === 'low' ? 0.008 : 0.006}
+        size={deviceTier === 'low' ? 0.032 : 0.024}
         vertexColors
         transparent
-        opacity={0.9}
+        opacity={0.95}
         sizeAttenuation
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </points>
   )

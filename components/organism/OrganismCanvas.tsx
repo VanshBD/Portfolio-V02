@@ -9,6 +9,7 @@ import * as THREE from 'three'
 import { gsap } from 'gsap'
 import { useOrganism } from '@/context/OrganismContext'
 import { BreathClock } from './BreathClock'
+import NeuralCluster from './NeuralCluster'
 import {
   ORGANISM_VERTEX,
   ORGANISM_FRAGMENT
@@ -198,32 +199,32 @@ function OrganismMesh() {
   }, [camera])
 
   useFrame(({ clock }) => {
-    if (!materialRef.current) return
+    const w = window as unknown as Record<string, unknown>
+    w.__omFrame = ((w.__omFrame as number) || 0) + 1
 
-    const uni = materialRef.current.uniforms
+    const mesh = meshRef.current
+    if (!mesh) return
+    const mat = mesh.material as THREE.ShaderMaterial
+    if (!mat || !mat.uniforms) return
+    const uni = mat.uniforms
 
-    // Update time uniform:
     uni.uTime.value = clock.getElapsedTime()
+    uni.uMouse.value.set(mouseNDC.current.x, mouseNDC.current.y)
+    uni.uPulseIntensity.value = pulseIntensityRef.current
 
-    // Update mouse uniform:
-    uni.uMouse.value.set(
-      mouseNDC.current.x,
-      mouseNDC.current.y
-    )
-
-    // Update pulse uniform:
-    uni.uPulseIntensity.value =
-      pulseIntensityRef.current
+    // DEBUG (temp): expose state for QA inspection
+    w.__org = {
+      pulse: pulseIntensityRef.current,
+      uPulse: uni.uPulseIntensity.value,
+      breath: breathPhaseRef.current,
+      matType: mat.type,
+    }
 
     // Breathing scale applied to mesh:
     const phase = breathPhaseRef.current
     const scale = 1.0 + phase * 0.03
-    if (meshRef.current) {
-      meshRef.current.scale.setScalar(scale)
-      // Y-float: slight upward movement on inhale
-      meshRef.current.position.y =
-        phase * 0.008
-    }
+    mesh.scale.setScalar(scale)
+    mesh.position.y = phase * 0.008
   })
 
   return (
@@ -236,8 +237,8 @@ function OrganismMesh() {
         vertexShader={ORGANISM_VERTEX}
         fragmentShader={ORGANISM_FRAGMENT}
         uniforms={uniforms}
-        transparent
-        side={THREE.FrontSide}
+        transparent={false}
+        side={THREE.DoubleSide}
         depthWrite
       />
     </mesh>
@@ -296,6 +297,9 @@ export default function OrganismCanvas() {
 
       {/* The organism body: */}
       <OrganismMesh />
+
+      {/* Neural Cluster — skills network region: */}
+      <NeuralCluster />
 
       {/* Preload all assets during birth sequence: */}
       <Preload all />
