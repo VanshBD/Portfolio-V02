@@ -16,3 +16,13 @@ The "THE ORGANISM" portfolio is built via a 10-prompt sequence (Prompt1.md = Pro
 - next/font sets `--font-display` / `--font-mono` on `<html>`; raw CSS and Tailwind `@theme inline` both read them.
 - `tsconfig.json` left at Next 16 scaffold defaults (`target ES2017`, `jsx: react-jsx`); `@/*` already maps to `./*`. Did NOT apply the prompt's ES2020/`jsx: preserve` changes — unnecessary and builds clean.
 - `leva` is a dev dependency — never import it in source (`components`/`hooks`/`context`/`lib`/`app`).
+
+**R3F v9 / React 19 gotchas (confirmed building LoadingSequence in Prompt 02 — these recur for every Three.js component):**
+- `<bufferAttribute>` requires `args={[array, itemSize]}` (constructor args). The v8 `count`/`array`/`itemSize` prop form is a **TypeScript build error** in fiber v9. `attach="attributes-position"` still required.
+- ESLint (`eslint-config-next/typescript` + react-hooks v6) treats several React-19 rules as **hard errors** (fail `npm run lint`, though `next build` with Turbopack does NOT run ESLint so it still builds):
+  - `react-hooks/refs`: reading `ref.current` **during render** (e.g. `array={someRef.current}` in JSX) is an error. Use lazy `useState`/stable values for things read in render.
+  - `react-hooks/immutability`: mutating a value **returned from a hook** (`useMemo`/`useState` array) is an error. Bake initial data into the lazy initializer (mutating a local before `return` is fine), then mutate only the THREE object (e.g. `geometry.attributes.position.setXYZ(...)`) in `useFrame` — the rule is syntactic and won't flag method calls on a different expression.
+  - `react-hooks/set-state-in-effect`: synchronous `setState` in an effect body is an error. For client-only-derived state (needs `window`), use a guarded lazy initializer: `useState(() => typeof window === 'undefined' ? fallback : compute())`.
+  - `@typescript-eslint/no-explicit-any` is an error; `no-unused-vars` is a **warning** (so prompt-specified-but-unused symbols can stay).
+- Client-only Three.js/Tone components must be imported with `next/dynamic` + `{ ssr: false }` from the page (Tone.js references `self`/`window` at module load → would crash SSR/static-gen otherwise).
+- Per-frame buffer updates: set `attribute.needsUpdate = true` in `useFrame` (done in LoadingSequence).
