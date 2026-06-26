@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+/* ============================================================
+   NULL CITY — The Debugger
+   Phase 0 · Global ink / halftone / grain design system
+
+   IMPORTANT: all custom component classes live in @layer components so that
+   Tailwind utilities (which sit in @layer utilities, the highest layer) can
+   always override them. Unlayered custom CSS would beat every utility — that
+   bug already cost us padding and full-height once. Don't reintroduce it.
+   ============================================================ */
+
+@theme {
+  /* ── Noir core palette ── */
+  --color-ink: #0a0a0a;          /* deepest black — the night */
+  --color-ink-soft: #14110d;     /* warm black — shadow */
+  --color-smoke: #2b2722;        /* charcoal mid */
+  --color-ash: #6b655a;          /* halftone grey */
+  --color-paper: #e6e1d3;        /* newsprint */
+  --color-paper-aged: #d8d0bc;   /* yellowed page */
+  --color-paper-bright: #f2eee2; /* highlight paper */
+
+  /* ── Per-case spot colors (muted, noir-safe) ── */
+  --color-spot-cyan: #4a8a99;     /* CH2 · The Long Con */
+  --color-spot-amber: #c8902e;    /* CH3 · The Villain */
+  --color-spot-green: #4f8a5b;    /* CH4 · The Heist */
+  --color-spot-violet: #7a5c9e;   /* CH5 · The Duel */
+  --color-spot-emerald: #3f9e7a;  /* CH6 · The Twist */
+  --color-spot-danger: #b23a2e;   /* blood / alarm */
+
+  /* ── Type ── */
+  --font-display: "Oswald", "Arial Narrow", sans-serif;   /* titles, SFX frames */
+  --font-shout: "Bangers", "Impact", cursive;             /* onomatopoeia */
+  --font-caption: "Special Elite", "Courier New", monospace; /* noir narration */
+  --font-dialogue: "Comic Neue", "Comic Sans MS", cursive;   /* speech bubbles */
+}
+
+/* ── Base element styles (Tailwind preflight already handles reset) ── */
+html {
+  scroll-behavior: auto; /* GSAP owns easing */
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-caption);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   COMPONENT CLASSES — layered so utilities win
+   ============================================================ */
+@layer components {
+  /* ── PAPER ── */
+  .paper {
+    background-color: var(--color-paper);
+    position: relative;
+  }
+  .paper-aged { background-color: var(--color-paper-aged); }
+
+  /* ── HALFTONE dot engine (density via --ht-size) ── */
+  .halftone {
+    --ht-size: 6px;
+    --ht-color: rgba(10, 10, 10, 0.55);
+    background-image: radial-gradient(var(--ht-color) 28%, transparent 29%);
+    background-size: var(--ht-size) var(--ht-size);
+    background-position: 0 0;
+  }
+  .halftone-2x {
+    --ht-size: 6px;
+    --ht-color: rgba(10, 10, 10, 0.5);
+    background-image:
+      radial-gradient(var(--ht-color) 26%, transparent 27%),
+      radial-gradient(var(--ht-color) 26%, transparent 27%);
+    background-size: var(--ht-size) var(--ht-size);
+    background-position: 0 0, calc(var(--ht-size) / 2) calc(var(--ht-size) / 2);
+  }
+  .shade-25 { --ht-size: 9px; }
+  .shade-50 { --ht-size: 6px; }
+  .shade-75 { --ht-size: 4px; }
+
+  /* ── GRAIN (paper tooth + print noise) ── */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.10;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* ── INK borders + vignette ── */
+  .ink-border {
+    border: 3px solid var(--color-ink);
+    box-shadow: 0 0 0 1px var(--color-ink), 6px 6px 0 0 rgba(10, 10, 10, 0.35);
+  }
+  .vignette::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(10, 10, 10, 0.55) 100%);
+  }
+
+  /* ── CMYK registration misprint (intensity via --reg) ── */
+  .registration {
+    --reg: 0px;
+    text-shadow:
+      calc(var(--reg) * -1) 0 0 rgba(0, 174, 239, 0.6),
+      var(--reg) 0 0 rgba(236, 0, 140, 0.6);
+  }
+
+  .flicker { animation: flicker 4s infinite steps(1); }
+
+  /* ── Type families ── */
+  .font-display  { font-family: var(--font-display); }
+  .font-shout    { font-family: var(--font-shout); }
+  .font-caption  { font-family: var(--font-caption); }
+  .font-dialogue { font-family: var(--font-dialogue); }
+}
+
+/* ============================================================
+   KEYFRAMES (top-level)
+   ============================================================ */
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.35; }
+  95% { opacity: 0.9; }
+  97% { opacity: 0.4; }
+}
+@keyframes rain-fall {
+  to { background-position: 0 1000px; }
+}
+@keyframes blink-caret {
+  50% { opacity: 0; }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-smoke);
+  border: 2px solid var(--color-ink);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
