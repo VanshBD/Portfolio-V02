@@ -62,6 +62,8 @@ export interface Panel {
   sfx?: Sfx[];
   /** Panels marked dark enable the flashlight cursor. */
   dark?: boolean;
+  /** Panels marked paper render on cream newsprint (e.g. the cover). */
+  paper?: boolean;
   /** Hidden ink revealed only by the torch. */
   secret?: { text: string; at: { x: number; y: number } };
 }
