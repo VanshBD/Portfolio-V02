@@ -1,156 +1,181 @@
 @import "tailwindcss";
 
 /* ============================================================
-   NULL CITY — The Debugger
-   Phase 0 · Global ink / halftone / grain design system
-
-   IMPORTANT: all custom component classes live in @layer components so that
-   Tailwind utilities (which sit in @layer utilities, the highest layer) can
-   always override them. Unlayered custom CSS would beat every utility — that
-   bug already cost us padding and full-height once. Don't reintroduce it.
+   THE BOOK THAT WRITES ITSELF — Vansh Dobariya Portfolio
+   Global design system: cream paper, ink, handwritten magic
    ============================================================ */
 
 @theme {
-  /* ── Noir core palette ── */
-  --color-ink: #0a0a0a;          /* deepest black — the night */
-  --color-ink-soft: #14110d;     /* warm black — shadow */
-  --color-smoke: #2b2722;        /* charcoal mid */
-  --color-ash: #6b655a;          /* halftone grey */
-  --color-paper: #e6e1d3;        /* newsprint */
-  --color-paper-aged: #d8d0bc;   /* yellowed page */
-  --color-paper-bright: #f2eee2; /* highlight paper */
-
-  /* ── Per-case spot colors (muted, noir-safe) ── */
-  --color-spot-cyan: #4a8a99;     /* CH2 · The Long Con */
-  --color-spot-amber: #c8902e;    /* CH3 · The Villain */
-  --color-spot-green: #4f8a5b;    /* CH4 · The Heist */
-  --color-spot-violet: #7a5c9e;   /* CH5 · The Duel */
-  --color-spot-emerald: #3f9e7a;  /* CH6 · The Twist */
-  --color-spot-danger: #b23a2e;   /* blood / alarm */
+  /* ── Book palette ── */
+  --color-ink:      #1c1814;
+  --color-ink-soft: #2e2820;
+  --color-pencil:   #8a8070;
+  --color-paper:    #f7f4ed;
+  --color-paper-aged: #ece8dc;
+  --color-paper-bright: #faf8f4;
+  --color-red:      #c84040;
+  --color-amber:    #c8902e;
+  --color-gold:     #d4a843;
+  --color-highlight-bg: rgba(240, 208, 80, 0.38);
 
   /* ── Type ── */
-  --font-display: "Oswald", "Arial Narrow", sans-serif;   /* titles, SFX frames */
-  --font-shout: "Bangers", "Impact", cursive;             /* onomatopoeia */
-  --font-caption: "Special Elite", "Courier New", monospace; /* noir narration */
-  --font-dialogue: "Comic Neue", "Comic Sans MS", cursive;   /* speech bubbles */
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-hand:    "Caveat", "Comic Sans MS", cursive;
+  --font-type:    "Special Elite", "Courier New", monospace;
+  --font-body:    "Georgia", "Times New Roman", serif;
 }
 
-/* ── Base element styles (Tailwind preflight already handles reset) ── */
+/* ── Base ── */
 html {
-  scroll-behavior: auto; /* GSAP owns easing */
-  background: var(--color-ink);
+  scroll-behavior: auto;
+  background: var(--color-paper);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
-  background: var(--color-ink);
-  color: var(--color-paper);
-  font-family: var(--font-caption);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-type);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
 /* ============================================================
-   COMPONENT CLASSES — layered so utilities win
+   COMPONENT CLASSES
    ============================================================ */
 @layer components {
-  /* ── PAPER ── */
-  .paper {
-    background-color: var(--color-paper);
+
+  /* ── Paper & grain ── */
+  .paper-grain {
     position: relative;
   }
-  .paper-aged { background-color: var(--color-paper-aged); }
-
-  /* ── HALFTONE dot engine (density via --ht-size) ── */
-  .halftone {
-    --ht-size: 6px;
-    --ht-color: rgba(10, 10, 10, 0.55);
-    background-image: radial-gradient(var(--ht-color) 28%, transparent 29%);
-    background-size: var(--ht-size) var(--ht-size);
-    background-position: 0 0;
-  }
-  .halftone-2x {
-    --ht-size: 6px;
-    --ht-color: rgba(10, 10, 10, 0.5);
-    background-image:
-      radial-gradient(var(--ht-color) 26%, transparent 27%),
-      radial-gradient(var(--ht-color) 26%, transparent 27%);
-    background-size: var(--ht-size) var(--ht-size);
-    background-position: 0 0, calc(var(--ht-size) / 2) calc(var(--ht-size) / 2);
-  }
-  .shade-25 { --ht-size: 9px; }
-  .shade-50 { --ht-size: 6px; }
-  .shade-75 { --ht-size: 4px; }
-
-  /* ── GRAIN (paper tooth + print noise) ── */
-  .grain::after {
+  .paper-grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.10;
+    opacity: 0.055;
     mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    z-index: 10;
   }
 
-  /* ── INK borders + vignette ── */
-  .ink-border {
-    border: 3px solid var(--color-ink);
-    box-shadow: 0 0 0 1px var(--color-ink), 6px 6px 0 0 rgba(10, 10, 10, 0.35);
-  }
-  .vignette::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(ellipse at center, transparent 55%, rgba(10, 10, 10, 0.55) 100%);
-  }
+  /* ── Font helpers ── */
+  .font-display { font-family: var(--font-display); }
+  .font-hand    { font-family: var(--font-hand); }
+  .font-type    { font-family: var(--font-type); }
+  .font-body    { font-family: var(--font-body); }
 
-  /* ── CMYK registration misprint (intensity via --reg) ── */
-  .registration {
-    --reg: 0px;
-    text-shadow:
-      calc(var(--reg) * -1) 0 0 rgba(0, 174, 239, 0.6),
-      var(--reg) 0 0 rgba(236, 0, 140, 0.6);
+  /* ── Writing cursor ── */
+  .writing-cursor {
+    display: inline-block;
+    width: 1.5px;
+    height: 1.05em;
+    background: var(--color-ink);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    border-radius: 1px;
+    animation: cursor-blink 0.9s step-end infinite;
   }
 
-  .flicker { animation: flicker 4s infinite steps(1); }
+  /* ── Ink highlight ── */
+  .ink-highlight {
+    background: linear-gradient(
+      to bottom,
+      transparent 55%,
+      var(--color-highlight-bg) 55%
+    );
+  }
 
-  /* ── Type families ── */
-  .font-display  { font-family: var(--font-display); }
-  .font-shout    { font-family: var(--font-shout); }
-  .font-caption  { font-family: var(--font-caption); }
-  .font-dialogue { font-family: var(--font-dialogue); }
+  /* ── Chapter number pill ── */
+  .chapter-badge {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: var(--color-pencil);
+    text-transform: uppercase;
+  }
+
+  /* ── Tech tag ── */
+  .tech-tag {
+    display: inline-block;
+    font-family: var(--font-type);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    padding: 2px 8px;
+    opacity: 0;
+  }
+
+  /* ── Scroll hint ── */
+  .scroll-hint {
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    color: var(--color-pencil);
+    letter-spacing: 0.1em;
+    animation: float-hint 2.2s ease-in-out infinite;
+  }
+
+  /* ── Section divider (drawn line) ── */
+  .ink-rule {
+    width: 100%;
+    height: 1px;
+    background: var(--color-ink);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
 }
 
 /* ============================================================
-   KEYFRAMES (top-level)
+   KEYFRAMES
    ============================================================ */
-@keyframes flicker {
-  0%, 92%, 100% { opacity: 1; }
-  93% { opacity: 0.35; }
-  95% { opacity: 0.9; }
-  97% { opacity: 0.4; }
-}
-@keyframes rain-fall {
-  to { background-position: 0 1000px; }
-}
-@keyframes blink-caret {
-  50% { opacity: 0; }
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--color-ink); }
+@keyframes float-hint {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+@keyframes ink-reveal {
+  0%   { opacity: 0; transform: scale(0.06); filter: blur(14px); }
+  60%  { opacity: 1; transform: scale(1.07); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ink drop on click — expands and fades */
+@keyframes ink-drop-click {
+  0%   { width: 6px;  height: 6px;  opacity: 0.75; }
+  60%  { width: 44px; height: 44px; opacity: 0.18; }
+  100% { width: 60px; height: 60px; opacity: 0; }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--color-paper-aged); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-smoke);
-  border: 2px solid var(--color-ink);
+  background: var(--color-pencil);
+  border: 2px solid var(--color-paper);
+  border-radius: 4px;
 }
 
-/* ── Reduced motion ── */
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

@@ -2,33 +2,34 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NULL CITY — The Debugger · Vansh Dobariya",
+  title: "Vansh Dobariya — The Book That Writes Itself",
   description:
-    "A scroll-driven noir comic. Vansh Dobariya works the night shift in NULL CITY, where code goes to break. Five cases. One developer. To be continued — if you call.",
+    "A portfolio that writes itself as you scroll. Five projects. One developer. Full Stack · React · Node.js · Blockchain · AI.",
   authors: [{ name: "Vansh Dobariya" }],
   keywords: [
     "Vansh Dobariya",
     "portfolio",
     "full stack developer",
-    "noir comic",
     "MERN",
     "blockchain",
     "AI integration",
+    "React",
+    "Next.js",
   ],
   openGraph: {
-    title: "NULL CITY — The Debugger",
-    description: "A noir comic portfolio. Scroll to enter the city.",
+    title: "Vansh Dobariya — The Book That Writes Itself",
+    description: "A portfolio that writes itself as you scroll.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NULL CITY — The Debugger",
-    description: "A noir comic portfolio by Vansh Dobariya.",
+    title: "Vansh Dobariya — Portfolio",
+    description: "The portfolio that writes itself. Scroll to read.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#f7f4ed",
   width: "device-width",
   initialScale: 1,
 };
@@ -45,9 +46,9 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        {/* Oswald = display/SFX · Bangers = shouts · Special Elite = noir narration · Comic Neue = dialogue */}
+        {/* Oswald = display · Special Elite = typewriter body · Caveat = handwritten margin notes */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Bangers&family=Special+Elite&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Special+Elite&family=Caveat:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
