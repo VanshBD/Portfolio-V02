@@ -9,6 +9,8 @@ import { CaseStudy } from "@/site/CaseStudy";
 import { WorkGrid } from "@/site/WorkGrid";
 import { SkillsMap } from "@/site/SkillsMap";
 import { Contact } from "@/site/Contact";
+import { Marquee } from "@/site/Marquee";
+import { Cursor } from "@/site/Cursor";
 
 export default function Home() {
   return (
@@ -18,6 +20,7 @@ export default function Home() {
       <RequestPath />
       <main>
         <Hero />
+        <Marquee />
         <HowIBuild />
         <Journey />
         <section id="work" className="section work-intro" data-section="work" data-path="/work">
@@ -39,6 +42,7 @@ export default function Home() {
       </main>
       <Footer />
       <Motion />
+      <Cursor />
     </>
   );
 }

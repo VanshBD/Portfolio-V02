@@ -91,6 +91,58 @@ export function Motion() {
         cleanups.push(() => split.revert());
       });
 
+      /* section labels decode from scrambled characters */
+      const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·<>";
+      gsap.utils.toArray<HTMLElement>(".eyebrow").forEach((el) => {
+        if (el.children.length) return;
+        const text = el.textContent ?? "";
+        if (!text.trim()) return;
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 90%",
+          once: true,
+          onEnter: () => {
+            const o = { p: 0 };
+            gsap.to(o, {
+              p: 1, duration: 0.9, ease: "none",
+              onUpdate: () => {
+                const done = Math.floor(o.p * text.length);
+                el.textContent = text.slice(0, done) + text.slice(done).replace(/[^\s·]/g, () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]);
+              },
+              onComplete: () => { el.textContent = text; },
+            });
+          },
+        });
+        cleanups.push(() => { el.textContent = text; });
+      });
+
+      /* parallax depth: data-parallax="0.3" drifts up as you scroll */
+      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+        const k = Number(el.dataset.parallax ?? 0.2);
+        gsap.fromTo(el, { yPercent: 40 * k }, {
+          yPercent: -60 * k, ease: "none",
+          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+
+      /* screenshots and video wipe into view */
+      gsap.utils.toArray<HTMLElement>("[data-clip]").forEach((el) => {
+        gsap.fromTo(el, { clipPath: "inset(18% 8% 18% 8% round 22px)", scale: 0.96 }, {
+          clipPath: "inset(0% 0% 0% 0% round 18px)", scale: 1, duration: 1.2, ease: "expo.out",
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          onComplete: () => { el.style.clipPath = ""; },
+        });
+      });
+
+      /* the hero text lifts away as you scroll past it */
+      const heroInner = document.querySelector(".hero__inner");
+      if (heroInner) {
+        gsap.to(heroInner, {
+          yPercent: -18, autoAlpha: 0.15, ease: "none",
+          scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+        });
+      }
+
       /* counters */
       gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
         const to = Number(el.dataset.to ?? 0);
@@ -106,8 +158,18 @@ export function Motion() {
     });
     cleanups.push(() => ctx.revert());
 
-    /* magnetic buttons (mouse only) */
+    /* magnetic buttons and the cursor spotlight on cards (mouse only) */
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      const spot = (e: PointerEvent) => {
+        const card = (e.target as Element | null)?.closest?.("[data-spotlight]") as HTMLElement | null;
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+      };
+      document.addEventListener("pointermove", spot, { passive: true });
+      cleanups.push(() => document.removeEventListener("pointermove", spot));
+
       document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((el) => {
         const move = (e: MouseEvent) => {
           const r = el.getBoundingClientRect();

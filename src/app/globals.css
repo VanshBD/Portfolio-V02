@@ -687,3 +687,103 @@ img, video { display: block; max-width: 100%; }
 .how__checks li.is-ok span { color: var(--ok); font-weight: 700; }
 .how__link { display: inline-block; margin-top: 14px; font-size: 0.8rem; color: var(--signal); text-decoration: none; }
 .how__link:hover { text-decoration: underline; }
+
+/* ============================================================
+   MOTION PASS 2
+   ============================================================ */
+
+/* ── case studies: one pinned screen, short scroll per step ── */
+.case { padding: 64px 0 clamp(80px, 9vw, 120px); }
+.case__head { margin-bottom: 20px; }
+.case__scroller { position: relative; height: calc(100vh + var(--steps) * 14vh); }
+.case__pin { position: sticky; top: var(--top); height: calc(100vh - var(--top)); display: flex; align-items: center; }
+.case__pin-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 60px); align-items: center; }
+.case__story { display: grid; align-content: center; }
+.case__story-text { min-height: 9.5em; animation: story-in 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes story-in { from { opacity: 0; transform: translateY(16px); filter: blur(6px); } }
+.case__story .cstep__title { margin-top: 4px; }
+.case__nav { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 2px; }
+.case__nav button {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 8px;
+  background: none; color: var(--steel); text-align: left; cursor: pointer;
+  font: 500 0.84rem var(--font-body-stack); transition: color 0.25s, background-color 0.25s;
+}
+.case__nav button:hover { color: var(--paper); background: var(--slate); }
+.case__nav-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; border: 1.5px solid var(--line-strong); transition: all 0.3s; }
+.case__nav button.is-past { color: var(--dim); }
+.case__nav button.is-past .case__nav-dot { background: var(--steel); border-color: var(--steel); }
+.case__nav button.is-active { color: var(--paper); font-weight: 600; }
+.case__nav button.is-active .case__nav-dot { background: var(--signal); border-color: var(--signal); box-shadow: 0 0 0 4px var(--signal-soft); }
+.case__hint { margin: 14px 0 0 8px; font-size: 0.7rem; color: var(--steel); }
+.case__stage { position: static; }
+.case__pin .diagram svg { max-height: calc(100vh - var(--top) - 230px); }
+.case__foot { margin-top: 28px; }
+@media (max-width: 900px) {
+  .case__scroller { height: calc(100svh + var(--steps) * 13vh); }
+  .case__pin { top: var(--top); height: calc(100svh - var(--top)); align-items: flex-start; padding-top: 10px; }
+  .case__pin-grid { grid-template-columns: 1fr; gap: 10px; }
+  .case__stage { order: -1; }
+  .case__pin .diagram svg { max-height: 40svh; }
+  .case__story-text { min-height: 8.5em; }
+  .case__story .cstep__title { font-size: 1.3rem; }
+  .case__story .cstep__body { font-size: 0.95rem; }
+  .case__nav { display: flex; gap: 8px; margin-top: 10px; }
+  .case__nav button { width: auto; padding: 6px; }
+  .case__nav-label { display: none; }
+  .case__hint { display: none; }
+}
+
+/* ── moving band ── */
+.marquee { position: relative; z-index: 2; overflow: hidden; padding: 22px 0; border-block: 1px solid var(--line); background: color-mix(in srgb, var(--slate) 55%, transparent); }
+.marquee__row { overflow: hidden; }
+.marquee__track { display: flex; width: max-content; will-change: transform; }
+.marquee__track span {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  font: 800 clamp(1.6rem, 3.6vw, 2.8rem)/1.25 var(--font-display-stack); letter-spacing: -0.03em;
+}
+.marquee__track i { width: 10px; height: 10px; margin: 0 0.9em; border-radius: 50%; background: var(--signal); box-shadow: 0 0 14px var(--signal); }
+.marquee__row--alt .marquee__track span { font: 500 clamp(1rem, 2vw, 1.35rem)/1.8 var(--font-mono-stack); letter-spacing: 0; color: var(--steel); }
+.marquee__row--alt .marquee__track i { width: 6px; height: 6px; background: var(--steel); box-shadow: none; }
+
+/* ── cursor ring ── */
+.cursor-ring {
+  position: fixed; left: 0; top: 0; z-index: 300; pointer-events: none;
+  width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--paper) 55%, transparent);
+  display: grid; place-items: center; opacity: 0;
+  transition: opacity 0.3s, width 0.3s, height 0.3s, margin 0.3s, background-color 0.3s, border-color 0.3s;
+}
+.cursor-ring.is-live { opacity: 1; }
+.cursor-ring span { font: 600 0.7rem var(--font-mono-stack); color: var(--on-signal); opacity: 0; transition: opacity 0.2s; }
+.cursor-ring[data-mode="link"] { width: 54px; height: 54px; margin: -27px 0 0 -27px; border-color: var(--signal); }
+.cursor-ring[data-mode="label"] { width: 72px; height: 72px; margin: -36px 0 0 -36px; background: var(--signal); border-color: var(--signal); }
+.cursor-ring[data-mode="label"] span { opacity: 1; }
+.cursor-ring.is-down { width: 24px; height: 24px; margin: -12px 0 0 -12px; }
+@media (hover: none), (pointer: coarse) { .cursor-ring { display: none; } }
+
+/* ── spotlight that follows the cursor on cards ── */
+[data-spotlight] { position: relative; isolation: isolate; }
+[data-spotlight]::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--signal-soft), transparent 45%);
+  opacity: 0; transition: opacity 0.35s;
+}
+[data-spotlight]:hover::after { opacity: 1; }
+.how__card[data-spotlight]::after, .award[data-spotlight]::after, .layer[data-spotlight]::after { z-index: 0; }
+.how__card > *, .layer > * { position: relative; z-index: 1; }
+
+/* ── buttons fill from the left on hover ── */
+.btn--ghost { position: relative; overflow: hidden; isolation: isolate; }
+.btn--ghost::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--paper);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn--ghost:hover { color: var(--ink); }
+.btn--ghost:hover::before { transform: scaleX(1); }
+.btn--primary { position: relative; overflow: hidden; }
+.btn--primary::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg); transition: left 0.6s ease;
+}
+.btn--primary:hover::after { left: 120%; }

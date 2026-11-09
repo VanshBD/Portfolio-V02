@@ -36,7 +36,7 @@ export function SkillsMap() {
         <div className="skills__map" data-reveal>
           <div className="skills__layers">
             {skillLayers.map((l) => (
-              <div key={l.layer} className="layer">
+              <div key={l.layer} className="layer" data-spotlight>
                 <p className="layer__name mono">{l.layer}</p>
                 <div className="layer__skills">
                   {l.skills.map((s) => {

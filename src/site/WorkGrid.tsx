@@ -56,8 +56,8 @@ function Card({ w }: { w: Work }) {
   };
 
   return (
-    <article ref={ref} className="wcard" data-reveal onPointerMove={move} onPointerLeave={leave} onPointerEnter={() => { vid.current?.play().catch(() => {}); }}>
-      <div className="wcard__tilt">
+    <article ref={ref} className="wcard" data-reveal data-cursor={w.video ? "Play" : "Open"} onPointerMove={move} onPointerLeave={leave} onPointerEnter={() => { vid.current?.play().catch(() => {}); }}>
+      <div className="wcard__tilt" data-spotlight>
         <div className="wcard__media">
           {w.video ? (
             <video ref={vid} src={w.video} poster={w.cover} muted loop playsInline preload="none" aria-label={`${w.title} launch clip`} />

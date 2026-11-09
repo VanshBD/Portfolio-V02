@@ -11,7 +11,7 @@ export function HowIBuild() {
         <p className="lede" data-reveal>Three things every system I build has to be, and the numbers that prove it.</p>
         <div className="how__grid">
           {principles.map((p, i) => (
-            <article key={p.key} className="how__card" data-reveal data-delay={i * 0.08}>
+            <article key={p.key} className="how__card" data-reveal data-delay={i * 0.08} data-spotlight>
               <p className="how__key mono">{String(i + 1).padStart(2, "0")} · {p.key}</p>
               <p className="how__line">{p.line}</p>
               <p className="how__stat">
@@ -40,8 +40,12 @@ export function Achievements() {
         <h2 className="h2" data-split>Proof under pressure.</h2>
         <ul className="awards__list">
           {achievements.map((a, i) => (
-            <li key={a.label} className="award" data-reveal data-delay={(i % 3) * 0.06}>
-              <span className="award__value">{a.value}</span>
+            <li key={a.label} className="award" data-reveal data-delay={(i % 3) * 0.06} data-spotlight>
+              <span className="award__value">
+                {/^[\d,]+\+?$/.test(a.value)
+                  ? <span data-count data-to={a.value.replace(/[^\d]/g, "")} data-suffix={a.value.endsWith("+") ? "+" : ""}>{a.value}</span>
+                  : a.value}
+              </span>
               <span className="award__label">{a.label}</span>
               <span className="award__detail">{a.detail}</span>
             </li>
