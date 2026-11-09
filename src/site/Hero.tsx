@@ -25,7 +25,7 @@ export function Hero() {
   }, { scope: ref });
 
   return (
-    <section ref={ref} id="top" className="hero" data-section="top" data-path="GET /">
+    <section ref={ref} id="top" className="hero" data-section="top" data-path="/">
       <HeroNetwork />
       <div className="container hero__inner">
         <p className="hero__eyebrow eyebrow">

@@ -26,6 +26,7 @@ export const profile = {
 export const principles = [
   {
     key: "Fast",
+    graphic: "drop" as const,
     line: "Responses that don't make anyone wait.",
     stat: { to: 48, suffix: "%", label: "faster API responses across 6 enterprise systems" },
     proof: "Redis caching and MongoDB index tuning at AUM Industries. BillStack's API latency down 60%.",
@@ -40,6 +41,7 @@ export const principles = [
   },
   {
     key: "Running",
+    graphic: "pulse" as const,
     line: "Systems people use every day.",
     stat: { to: 15, suffix: "+", label: "production apps shipped in 2+ years" },
     proof: "Pravasa and La Europa are live for real clients. AUM's platform runs the company daily.",

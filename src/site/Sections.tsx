@@ -1,5 +1,6 @@
 import { principles, achievements, learning, profile } from "@/content/site";
 import { CheckPills } from "./CheckPills";
+import { HowGraphic, BlockToy } from "./Interactive";
 
 /* ── How I build ── */
 export function HowIBuild() {
@@ -20,6 +21,7 @@ export function HowIBuild() {
                   : <span data-count data-to={p.stat.to} data-suffix={p.stat.suffix}>{p.stat.to}{p.stat.suffix}</span>}
               </p>
               <p className="how__stat-label">{p.stat.label}</p>
+              {p.graphic && <HowGraphic kind={p.graphic} />}
               {p.checks && <CheckPills checks={p.checks} />}
               <p className="how__proof">{p.proof}</p>
               {p.link && <a className="how__link mono" href={p.link.href}>{p.link.label} ↘</a>}
@@ -60,7 +62,8 @@ export function Achievements() {
 export function Learning() {
   return (
     <section id="learning" className="section learning" data-section="learning" data-path="/next">
-      <div className="container learning__grid">
+      <div className="container">
+      <div className="learning__grid">
         <div>
           <p className="eyebrow" data-reveal>Learning now</p>
           <h2 className="h2" data-split>The next layer down.</h2>
@@ -83,6 +86,11 @@ export function Learning() {
             <span className="pill pill--signal">Coming soon</span>
           </div>
         </div>
+      </div>
+      <div className="learning__toy" data-reveal>
+        <p className="eyebrow eyebrow--dim">Learning in public · break the chain</p>
+        <BlockToy />
+      </div>
       </div>
     </section>
   );

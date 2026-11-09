@@ -787,3 +787,127 @@ img, video { display: block; max-width: 100%; }
   transform: skewX(-20deg); transition: left 0.6s ease;
 }
 .btn--primary:hover::after { left: 120%; }
+
+/* ============================================================
+   PASS 3: request log, skill wires, graphics, chain, composer
+   ============================================================ */
+
+/* the old left rail is gone, so the content no longer needs extra left room */
+@media (min-width: 1100px) and (max-width: 1360px) {
+  .container { padding-left: var(--gutter); }
+  .journey.is-horizontal .journey__track { padding-left: max(var(--gutter), calc((100vw - 1220px) / 2 + var(--gutter))); }
+}
+
+/* ── request log ── */
+.rlog {
+  position: fixed; left: 18px; bottom: 18px; z-index: 55; width: 300px; max-width: calc(100vw - 36px);
+  border-radius: 16px; border: 1px solid var(--line); background: color-mix(in srgb, var(--slate) 88%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: var(--shadow); overflow: hidden;
+  transition: border-color 0.4s, width 0.3s;
+}
+.rlog:not(.is-open) { width: auto; }
+.rlog.is-ok { border-color: color-mix(in srgb, var(--ok) 50%, transparent); }
+.rlog__head { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border: 0; background: none; color: var(--paper); cursor: pointer; text-align: left; }
+.rlog__led { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: live 2s infinite; flex: none; }
+.rlog__led.is-ok { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+.rlog__title { flex: 1; font-size: 0.72rem; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rlog__code { font-size: 0.7rem; color: var(--ok); }
+.rlog__chev { color: var(--steel); width: 12px; text-align: center; }
+.rlog__list { list-style: none; margin: 0; padding: 0 6px 4px; font-size: 0.72rem; }
+.rlog__list li { animation: pc-in 0.35s ease-out; }
+.rlog__list button {
+  display: grid; grid-template-columns: 30px 1fr auto auto; gap: 8px; align-items: center; width: 100%;
+  padding: 5px 6px; border: 0; border-radius: 7px; background: none; color: var(--dim); text-align: left; cursor: pointer; font: inherit;
+}
+.rlog__list button:hover { background: var(--slate-2); color: var(--paper); }
+.rlog__m { color: var(--signal); }
+.rlog__p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rlog__s { color: var(--ok); }
+.rlog__t { color: var(--steel); min-width: 3.4em; text-align: right; }
+.rlog__list li.is-live button { color: var(--paper); background: var(--signal-soft); }
+.rlog__empty { padding: 6px; color: var(--steel); }
+.rlog__foot { margin: 0; padding: 7px 12px 10px; border-top: 1px solid var(--line); font-size: 0.64rem; color: var(--steel); }
+@media (max-width: 700px) { .rlog { left: 10px; bottom: 10px; } }
+
+/* ── skills: live wires and the project card ── */
+.skills__map { position: relative; }
+/* wires sit above the panels but behind the chips, so they read as running under them */
+.skills__wires { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
+.skills .skill, .skills .proj { position: relative; z-index: 2; }
+.skills .skill:not(.is-on) { background: var(--slate); }
+.skills .skill.is-dim { opacity: 1; color: var(--steel); border-color: var(--line); }
+@media (max-width: 900px) { .skills__wires { display: none; } }
+.wire { fill: none; stroke: var(--signal); stroke-width: 1.6; opacity: 0.75; stroke-dasharray: 1; stroke-dashoffset: 1; animation: wire-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes wire-draw { to { stroke-dashoffset: 0; } }
+.wire__packet { fill: var(--signal); filter: drop-shadow(0 0 5px var(--signal)); }
+.skills__projects { position: relative; }
+.skill.is-on { box-shadow: 0 0 0 4px var(--signal-soft), 0 0 22px -4px var(--signal); }
+.proj__n { margin-left: auto; font-size: 0.68rem; color: var(--steel); }
+.proj.is-on .proj__n { color: var(--ok); }
+.proj-card { margin-top: 14px; padding: 14px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--ok) 45%, transparent); background: var(--ok-soft); animation: story-in 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+.proj-card__name { margin: 0; font: 700 1.1rem var(--font-display-stack); }
+.proj-card__line { margin: 6px 0 8px; color: var(--dim); font-size: 0.88rem; }
+.proj-card__meta { margin: 0 0 12px; font-size: 0.72rem; color: var(--steel); }
+.skills__summary { margin-top: 12px; }
+
+/* ── how I build graphics ── */
+.how__graph { display: block; width: 100%; height: auto; margin: -6px 0 18px; overflow: visible; }
+.how__graph-base { stroke: var(--line); stroke-dasharray: 3 4; }
+.how__graph-line { fill: none; stroke: var(--signal); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.how__graph.is-in .how__graph-line { animation: wire-draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards; }
+.how__graph-dot { fill: var(--signal); opacity: 0; }
+.how__graph.is-in .how__graph-dot { animation: dot-in 0.4s ease 1.7s forwards; }
+.how__graph-dot--ok { fill: var(--ok); opacity: 1; }
+@keyframes dot-in { to { opacity: 1; } }
+.how__graph-label { fill: var(--steel); font: 500 9px var(--font-mono-stack); }
+.how__graph-label--ok { fill: var(--ok); }
+.how__graph--pulse { height: 60px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 92%, transparent); }
+.how__pulse-track { animation: pulse-run 3s linear infinite; }
+.how__pulse-line { fill: none; stroke: var(--ok); stroke-width: 2; stroke-linejoin: round; }
+@keyframes pulse-run { to { transform: translateX(-260px); } }
+
+/* ── learning: break the chain ── */
+.learning__toy { margin-top: 56px; }
+.chain__blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.block {
+  position: relative; padding: 16px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--ok) 45%, transparent);
+  background: var(--slate); transition: border-color 0.35s, background-color 0.35s, transform 0.35s;
+}
+.block.is-bad { border-color: #ff5d6c; background: color-mix(in srgb, #ff5d6c 8%, var(--slate)); animation: shake 0.4s; }
+.block.is-mining { animation: mining 0.65s ease-in-out; }
+@keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@keyframes mining { 50% { transform: translateY(-6px); box-shadow: 0 10px 30px -10px var(--signal); } }
+.block__n { margin: 0; font-size: 0.7rem; color: var(--steel); text-transform: uppercase; letter-spacing: 0.1em; }
+.block__data { margin: 6px 0 10px; font-weight: 600; min-height: 2.6em; }
+.block__meta { display: grid; gap: 3px; margin: 0; font-size: 0.72rem; }
+.block__meta div { display: flex; justify-content: space-between; gap: 8px; }
+.block__meta dt { color: var(--steel); }
+.block__meta dd { margin: 0; color: var(--dim); }
+.block__hash { color: var(--ok) !important; }
+.block.is-bad .block__hash { color: #ff5d6c !important; }
+.block__link { position: absolute; right: -28px; top: 50%; width: 28px; height: 2px; background: var(--ok); }
+.block.is-bad .block__link { background: #ff5d6c; }
+.chain__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; }
+.chain__status { font-size: 0.78rem; color: var(--ok); }
+.chain__status.is-bad { color: #ff5d6c; }
+.chain__note { margin: 10px 0 0; font-size: 0.8rem; color: var(--steel); }
+@media (max-width: 760px) {
+  .chain__blocks { grid-template-columns: 1fr; gap: 16px; }
+  .block__link { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 16px; }
+}
+
+/* ── contact: compose a request ── */
+.compose { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; margin-top: 36px; align-items: stretch; }
+.compose__fields { display: grid; align-content: start; gap: 4px; }
+.compose__fields .btn { justify-self: start; margin-top: 6px; }
+.compose__note { margin: 8px 0 0; font-size: 0.8rem; color: var(--steel); }
+.compose__req {
+  margin: 0; padding: 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--slate);
+  font-size: 0.82rem; line-height: 1.55; color: var(--dim); white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.compose__line b { color: var(--signal); }
+.compose__line i { font-style: normal; color: var(--steel); }
+.compose__dim { color: var(--steel); }
+.compose__res { color: var(--steel); }
+.compose__res.is-ok { color: var(--ok); }
+@media (max-width: 860px) { .compose { grid-template-columns: 1fr; } }

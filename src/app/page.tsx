@@ -1,7 +1,7 @@
 import { cases } from "@/content/site";
 import { Motion } from "@/site/Motion";
 import { TopBar } from "@/site/TopBar";
-import { RequestPath } from "@/site/RequestPath";
+import { RequestLog } from "@/site/RequestLog";
 import { Hero } from "@/site/Hero";
 import { HowIBuild, Achievements, Learning, Footer } from "@/site/Sections";
 import { Journey } from "@/site/Journey";
@@ -17,7 +17,7 @@ export default function Home() {
     <>
       <a className="skip" href="#work">Skip to the work</a>
       <TopBar />
-      <RequestPath />
+      <RequestLog />
       <main>
         <Hero />
         <Marquee />
