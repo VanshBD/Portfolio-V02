@@ -1,58 +1,60 @@
 import type { Metadata, Viewport } from "next";
+import { Schibsted_Grotesk, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { siteUrl } from "./site-url";
+import { JsonLd } from "./JsonLd";
+
+const display = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+const body = Geist({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
+
+const description =
+  "Full-Stack Developer in Ahmedabad focused on backend systems. Case studies with live architecture diagrams: Pravasa Transworld, AUM Industries, La Europa, AFI Agent, OVX-1.";
 
 export const metadata: Metadata = {
-  title: "Vansh Dobariya — The Book That Writes Itself",
-  description:
-    "A portfolio that writes itself as you scroll. Five projects. One developer. Full Stack · React · Node.js · Blockchain · AI.",
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  creator: "Vansh Dobariya",
+  category: "technology",
+  title: "Vansh Dobariya · Full-Stack Developer, backend systems",
+  description,
   authors: [{ name: "Vansh Dobariya" }],
-  keywords: [
-    "Vansh Dobariya",
-    "portfolio",
-    "full stack developer",
-    "MERN",
-    "blockchain",
-    "AI integration",
-    "React",
-    "Next.js",
-  ],
+  keywords: ["Vansh Dobariya", "full-stack developer", "backend developer", "Node.js", "Next.js", "MongoDB", "Ahmedabad", "portfolio"],
   openGraph: {
-    title: "Vansh Dobariya — The Book That Writes Itself",
-    description: "A portfolio that writes itself as you scroll.",
+    title: "Vansh Dobariya · I build the systems behind products",
+    description,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vansh Dobariya — Portfolio",
-    description: "The portfolio that writes itself. Scroll to read.",
+    title: "Vansh Dobariya · I build the systems behind products",
+    description,
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f4ed",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0D1015" },
+    { media: "(prefers-color-scheme: light)", color: "#F2F3EF" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+/* Applies the saved theme before first paint so there's no flash. */
+const themeScript = `try{var t=localStorage.getItem('vd-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}`;
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* Oswald = display · Special Elite = typewriter body · Caveat = handwritten margin notes */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Special+Elite&family=Caveat:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="antialiased">{children}</body>
+      <body>
+        <JsonLd />
+        {children}
+      </body>
     </html>
   );
 }

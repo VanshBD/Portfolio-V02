@@ -1,292 +1,177 @@
-# NULL CITY — *The Debugger*
-### A scroll-driven noir comic book portfolio for Vansh Dobariya
+# VANSH DOBARIYA · "END TO END"
+### A professional, scroll-driven portfolio that shows how your systems work. Full plan.
 
-> "They said it couldn't be built."
-
-This is the end-to-end build plan. Nothing gets coded until this is approved. Every
-section below is a decision already made — the build phase just executes it.
-
----
-
-## 1. THE BIG IDEA
-
-The portfolio is a **noir detective comic book**. You don't read a résumé — you read
-*Issue #1* of a graphic novel where **Vansh is the protagonist**: a freelance "debugger"
-working the night shift in a rain-soaked city where code goes to break.
-
-- **Scrolling = turning the page.** Each scroll beat advances panels, assembles art,
-  and inks-in the next frame.
-- **His real projects become noir story beats** — not bullet points, *cases*.
-- **Everything is hand-coded illustration** — no photos, no 3D, no stock art. Raw ink:
-  halftone dots, speed lines, speech bubbles, registration misprint, ink-bleed.
-- The last page is a **full splash panel** with his contact info:
-  **"TO BE CONTINUED — IF YOU CALL."**
-
-The four required story beats are the emotional spine:
-
-| Beat | Noir meaning | Mapped to |
-|------|-------------|-----------|
-| **The Villain** | a bug in production at 2 a.m. | BillStack (money on the line) |
-| **The Heist** | deploying to prod | TeamOS (the crew, real-time) |
-| **The Twist** | blockchain unlocking a new power | PHANTOM-CARBON (ghost protocol) |
-| **The Love Interest** | TypeScript — *she's complicated* | PromptWars (the AI arena) |
+> Status: plan only, waiting for approval. Replaces the game-world plan.
+> What changed: no game map, no photos of you, no gimmicks. A clean,
+> professional site with smooth scrolling and interactive animation, where
+> every project is explained as a connected system.
 
 ---
 
-## 2. THE CAST & THE CITY
+## 1. The idea in one line
 
-- **NULL CITY** — perpetual rain, dead neon, the place null pointers go to die.
-- **THE DEBUGGER** — Vansh. Part architect, part detective. Drinks coffee, hunts bugs,
-  never sleeps because the servers don't either.
-- **TYPESCRIPT** — the femme fatale. Strict, demanding, always right in the end.
-  Recurring character, not a case.
-- **THE BUG** — the antagonist. Shape-shifts: a race condition, a memory leak, a
-  null at 2 a.m.
+**You are a backend architect, so the site shows your work the way an
+architect would: as systems.** A single glowing line (the "request path")
+runs through the whole page. As the visitor scrolls, a packet of light
+travels along it, connecting every section. Each project is a case study
+with a **live architecture diagram** that animates step by step as you
+scroll: client, API, services, database, response, each part lighting up
+and explaining what it does.
 
-**Narration voice:** terse, first-person, typewriter captions.
-*"The city never sleeps. Neither do the servers. That's where I come in."*
-
----
-
-## 3. THE SCRIPT (scroll order = reading order)
-
-Each **CHAPTER** is a sequence of **PANELS**. Each panel is a coded SVG illustration with
-caption boxes, speech bubbles, FX, and (for cases) a "dossier" reveal carrying the real
-tech + GitHub link.
-
-### CH 0 — COLD OPEN  *(the splash / hero)*
-- **0.1** Establishing shot: rain over the NULL CITY skyline, one neon sign flickering.
-  *Caption: "They said it couldn't be built."*
-- **0.2** Push in on a high window — a silhouette at a keyboard, monitor glow cutting the dark.
-- **0.3** Title splash: **NULL CITY** / *The Debugger* / "A VANSH DOBARIYA STORY" /
-  **"SCROLL TO ENTER ↓"**
-
-### CH 1 — THE DEBUGGER  *(about / origin)*
-- **1.1** Hero reveal at the desk: three monitors, cold coffee, the rain on the glass.
-- **1.2** The dossier — his abilities as a noir "rap sheet": *Frontend. Backend.
-  AI integration. Blockchain. Known to ship under pressure.*
-- **1.3** TYPESCRIPT walks in. *"She wore strict types and a look that said: refactor."*
-- **1.4** The phone rings. The first case. *(hook → ink-bleed transition)*
-
-### CH 2 — CASE FILE 01: "THE LONG CON"  → **Pravasa-Transworld**
-A case that spans the globe. Travel booking as a cross-continent investigation —
-real-time availability, payments that have to clear, an admin who sees everything.
-- Panels: the map wall with red string, the journey, the payment that *must* go through.
-- **Dossier:** React · Node · Express · MongoDB · Razorpay · JWT — *github.com/VanshBD/Pravasa-Transworld*
-- **Spot color:** cold cyan.
-
-### CH 3 — CASE FILE 02: "THE VILLAIN"  → **BillStack**
-The 2 a.m. production bug. Money on the line, invoices bleeding, the clock against him.
-- Panels: the pager goes off, the war room, tracing the ledger, the fix lands at 02:47.
-- **Dossier:** React · Express · PDFKit · MongoDB · Nodemailer — *github.com/VanshBD/BillStack*
-- **Spot color:** danger amber.
-
-### CH 4 — CASE FILE 03: "THE HEIST"  → **TeamOS**
-Deploying to prod, told as a heist. The crew, the plan, the countdown, the green build.
-- Panels: assembling the crew (real-time avatars), the deploy countdown, the lock clicks open.
-- **Dossier:** React · Socket.io · Node · Redis · MongoDB — *github.com/VanshBD/TeamOS*
-- **Spot color:** vault green.
-
-### CH 5 — CASE FILE 04: "THE DUEL"  → **PromptWars**  *(the love interest pays off)*
-The AI arena. Prompt against prompt, live scoring, TypeScript at his side the whole time.
-- Panels: the arena, the duel, the leaderboard, TYPESCRIPT — *"Told you. Complicated."*
-- **Dossier:** TypeScript · Next.js · WebSocket · OpenAI · MongoDB — *github.com/VanshBD/PromptWars*
-- **Spot color:** electric violet.
-
-### CH 6 — CASE FILE 05: "THE TWIST"  → **PHANTOM-CARBON**
-Blockchain unlocks a new power. A ledger no one can forge, ghosts made accountable.
-- Panels: the ghost protocol, the chain locking block by block, the new power switched on.
-- **Dossier:** TypeScript · Ethers.js · Solidity · React · Web3.js — *github.com/VanshBD/PHANTOM-CARBON*
-- **Spot color:** spectral emerald.
-
-### CH 7 — SPLASH FINALE  *(contact)*
-- Full-bleed splash: the Debugger turns to the reader, rain easing, dawn cracking.
-- **"TO BE CONTINUED — IF YOU CALL."**
-- Contact as case-file tabs: **GitHub · LinkedIn · Email · Location**.
-- Tiny teaser: *"Issue #2 — coming when the next bug does."*
-
-> All script content lives in **one data file** (`src/content/script.ts`) so the story can
-> be re-written without touching a single component.
+**Why this fits you:**
+- Recruiters and tech leads instantly see *how* you think, not just *what* you built.
+- It's exactly what you're good at: backend architecture, data, roles, performance.
+- It's professional enough for any company, and the motion makes it memorable.
 
 ---
 
-## 4. VISUAL DESIGN SYSTEM
+## 2. Look and feel
 
-**Palette — noir + single spot color**
-- Ink black `#0A0A0A`, newsprint paper `#E6E1D3` / aged `#D8D0BC`, halftone greys.
-- Classic noir rule: the world is monochrome, **one spot color** carries danger/energy.
-  Each case gets its own *muted* spot color (cyan/amber/green/violet/emerald) — desaturated
-  to stay noir, never neon-bright.
+**Personality → design:** calm, precise and reliable (the backend that keeps
+everything running), with one spark of energy (*"bring me a crazy idea"*).
 
-**Texture — the print look**
-- Halftone dot shading (SVG / CSS radial-gradient engine, dot size driven by "value").
-- Paper grain + subtle vignette.
-- **Registration misprint** — slight CMYK channel offset on key moments (the comic
-  "printed slightly wrong" feel), intensified on hover/impact.
+**Main direction: "Ink & Signal" (dark, professional)**
 
-**Typography**
-- **Titles / SFX:** heavy condensed display (Oswald/Anton) + a hand-lettered face for
-  shouts (Bangers/Permanent Marker), used sparingly.
-- **Narration captions:** typewriter (Special Elite / Courier Prime) in yellowed boxes.
-- **Dialogue:** clean comic lettering inside SVG speech bubbles.
-- Loaded via `<link>` (Google Fonts) — proven path from the last build.
+| Token | Hex | Use |
+|---|---|---|
+| Ink | `#0D1015` | Page background |
+| Slate | `#161B23` | Cards, panels |
+| Steel | `#7D8BA3` | Diagram lines, secondary text |
+| Paper | `#EEF1F6` | Main text |
+| Signal | `#FF6B3D` | The travelling packet, key highlights, buttons (the "spark") |
+| OK | `#3DDC97` | Live status, "200 OK", success states |
 
-**Panel grammar**
-- Black borders, paper gutters, irregular layouts: full-bleed establishing shots, tight
-  grids for tension, skewed/diagonal panels for action.
-- SVG speech bubbles with tails; rectangular caption boxes for narration; onomatopoeia
-  (RING, CLACK, BAM) as drawn type with impact bursts.
+**Alternative: "Paper & Ink" (light, editorial)**, with the same structure on warm
+white, ink-black text and the same Signal orange. We pick between the two on
+real screens in the Look Lock step, not from descriptions.
+
+**Type:** a confident grotesk for headlines, a clean sans for reading, and a
+mono font only for technical labels (endpoints, numbers, stack names).
+
+**Motion rules (professional, not flashy):**
+- Smooth momentum scrolling across the whole page.
+- One signature motion: the packet travelling the request path.
+- Diagrams build themselves as you scroll; everything else fades or slides in gently.
+- Numbers count up once. No constant spinning or bouncing.
+- Respects "reduce motion"; phones get lighter animation.
+
+**No photos of you.** Identity comes from your name, a "VD" monogram, and your work.
 
 ---
 
-## 5. THE COMIC ENGINE (architecture)
-
-Data-driven. Components render the **script**, they don't hard-code it.
+## 3. The page, section by section (scroll order)
 
 ```
-src/
-  app/
-    layout.tsx            # fonts, metadata, global chrome
-    page.tsx              # mounts <Comic/>
-    globals.css           # ink, halftone, grain, paper tokens
-  content/
-    script.ts             # THE STORY: chapters → panels → layers → captions → dossiers
-    characters.ts         # cast metadata, spot colors
-  store/
-    comic.ts              # zustand: chapter, audioOn, rainOn, mode, reducedMotion
-  components/
-    Comic.tsx             # orchestrates ScrollTrigger timeline over all chapters
-    Chapter.tsx           # one pinned chapter, owns its panel sub-timeline
-    Panel.tsx             # renders a panel's SVG layers + captions + bubbles + FX
-    transitions/
-      InkBleed.tsx        # SVG turbulence/displacement page-turn wipe
-    art/                  # CODED ILLUSTRATION LIBRARY (the "assets")
-      Skyline.tsx         # parametric city silhouette generator
-      RainLayer.tsx       # SVG/canvas rain, parallax-aware
-      Figure.tsx          # the Debugger, posable silhouette
-      Props.tsx           # keyboard, coffee, phone, server rack, neon sign…
-      Halftone.tsx        # halftone shading overlay
-      SpeechBubble.tsx    # bubble + tail
-      CaptionBox.tsx      # typewriter narration box
-      SpeedLines.tsx      # motion/impact lines
-    ui/
-      Controls.tsx        # audio / rain / reading-mode / transcript toggles
-      ChapterMenu.tsx     # jump-to-case index ("case files")
-      Transcript.tsx      # accessible plain-text version of the whole story
-    fx/
-      FlashlightCursor.tsx# torch-beam mask for dark panels (reveals hidden ink)
-      Registration.tsx    # CMYK misprint glitch controller
-    audio/
-      useNoirAudio.ts     # procedural Web Audio: rain, thunder, typewriter, ring, sax sting
+ HERO ──► HOW I BUILD ──► JOURNEY ──► CASE STUDIES (5) ──► MORE WORK
+                                                               │
+ CONTACT ◄── LEARNING NOW ◄── ACHIEVEMENTS ◄── SKILLS SYSTEM ◄─┘
+ (the request path runs through all of it, and ends at "200 OK")
 ```
 
-**State (zustand):** `currentChapter`, `audioOn`, `rainOn`, `readingMode` (`cinematic` |
-`reader`), `reducedMotion`, `transcriptOpen`.
+### 1) Hero
+- **Vansh Dobariya** · Full-Stack Developer · backend systems · Ahmedabad
+- Line: *"I build the systems behind products, from a client's brief to a live, fast, reliable backend."*
+- Status: Open to work, anywhere · hybrid, remote or on-site.
+- Buttons: **See my work** · **Résumé** · **Contact**.
+- **Interactive:** behind the text, a quiet animated network of nodes (your
+  stack) that reacts to the cursor; the first packet leaves the hero and
+  starts the request path.
+
+### 2) How I build (3 principles, with real proof)
+- **Fast:** API response time down 48% across 6 enterprise systems.
+- **Correct:** money and stock that always add up (BillStack), 0% false answers (OVX-1).
+- **Running:** live client systems (Pravasa, La Europa) and in-house platforms used every day.
+- Animated counters on scroll.
+
+### 3) Journey (2023 → now)
+A connected timeline on the request path: BCA start, SwiftRut (trainee →
+backend lead), MERN certificate A+, 15 apps in a month, AUM Industries,
+going freelance, PromptWars 1st Runner Up, Hacker House Goa, Pravasa,
+La Europa. Each stop expands on hover or tap.
+
+### 4) Case studies (the heart of the site)
+Each one is a **pinned scroll section**: text on the left, a live
+architecture diagram on the right that animates step by step as you scroll.
+
+| # | Case study | Story beats (left) | Diagram (right) |
+|---|---|---|---|
+| 1 | **Pravasa Transworld** | The visa company, what they needed, what we built, boss problems (silent mail, open vault, no gateway fees), result | Website & applicant portal → API → MongoDB · Cloudinary (private files) · Socket.io alerts · email · UPI verification |
+| 2 | **AUM All-in-One Platform** | One product for every team, 8+ roles, heavy data, 48% faster APIs | Teams/roles → one API → services (website, sales enquiries, billing) → MongoDB + Redis cache |
+| 3 | **La Europa Education** | Old PHP site, database switch, the vanishing email, live on free plans | Public site + admin → server-only data layer → Firestore · Cloudinary · DNS/mail records |
+| 4 | **AFI Agent** | Biased fraud verdicts, prosecutor vs defense agents, 20 benchmark cases | Alert → hunter agents → TigerGraph → prosecutor ⇄ defense → rules → action |
+| 5 | **OVX-1 Voice RAG** | 200 ms wall, extractive-first answers, 9.43 ms P50, 0% false answers | Voice → guards → vector + keyword search → answer or abstain |
+
+**Interactive in each diagram:** hover or tap any box to see what it does and
+why it was chosen; a "replay" button re-runs the request animation. Where a
+real demo makes sense, a small playable piece (La Europa's publish demo,
+Pravasa's status timeline) sits under the diagram. Screenshots or the
+recording appear as a "see it live" panel.
+
+### 5) More work (grid)
+Cards that tilt slightly with the cursor, with real screenshots (and video on
+hover where we have it): StateScry, ObscurPilot (with its launch clip),
+PHANTOM-CARBON, LexAI, MatchLens AI, TeamOS, BillStack, Hospital Management
+(illustrated), SwiftRut work. Each card: one line, stack, Live and Code links.
+
+### 6) Skills as a system
+An interactive map of your stack grouped as layers (frontend, backend, data,
+AI, cloud). Click any skill and the projects that use it light up, linked
+back to their case studies.
+
+### 7) Achievements
+A clean strip: PromptWars 1st Runner Up, PromptWars Virtual top 400, Google
+Solution Challenge, 6 hackathon builds, 162 LeetCode, 16,500+ contributions,
+MERN certificate A+.
+
+### 8) Learning now
+Honest and short: blockchain fundamentals, Solidity, Rust, Web3. Plus
+"Ask Vansh AI · coming soon".
+
+### 9) Contact (the path ends at "200 OK")
+*"Have an idea, even a crazy one? Let's build it."* Email · LinkedIn · GitHub ·
+Download résumé. The packet arrives and the status turns green: **200 OK**.
+
+**Always available:** a small top bar with Work · Journey · Contact · Résumé,
+and the plain **/resume** page (already built) for recruiters in a hurry.
 
 ---
 
-## 6. SCROLL & ANIMATION (GSAP ScrollTrigger)
+## 4. What we keep and what we drop
 
-- The page is one tall scroll track. A master ScrollTrigger maps scroll → a GSAP timeline.
-- **Cinematic mode (default, desktop):** each chapter *pins*; within the pin a sub-timeline
-  inks-in panels, runs parallax layers, types captions, pops bubbles, wipes speed lines —
-  then an **ink-bleed transition** hands off to the next chapter.
-- **Reader mode (mobile / fallback):** classic webtoon — panels stack and scroll vertically,
-  light parallax, reveals on enter. Toggleable; auto-selected on small screens.
-- Within a panel: 3 parallax depths (background skyline → midground ink → foreground props),
-  caption typewriter reveal, bubble pop with overshoot, draw-on SVG paths.
+**Keep:** the locked story (STORY.md: all facts, numbers and boss fights,
+rewritten in plain professional language), project screenshots, the
+ObscurPilot clip, the résumé page and PDF, smooth scroll and animation code,
+the La Europa publish demo.
 
----
-
-## 7. SIGNATURE EFFECTS
-
-1. **Ink-bleed page transitions** — SVG `feTurbulence` + `feDisplacementMap` drive a growing
-   ink-blot mask that swallows the screen and reveals the next chapter (a page dipped in ink).
-2. **Flashlight cursor** — on the darkest panels the pointer becomes a torch beam (radial
-   mask). Hidden ink / easter-egg messages exist only in the dark.
-3. **Halftone engine** — value-driven dot shading; dots breathe on scroll for a living print.
-4. **Registration glitch** — occasional CMYK channel offset, punched up on impact frames.
-5. **Rain** — canvas particle rain, **toggleable**; thunder flashes briefly strobe/invert a panel.
-6. **Typewriter narration** — captions type out with a clack.
-7. **Panel camera** — slow zoom/pan (Ken-Burns-on-ink) on select establishing shots.
+**Drop:** the game world, islands, player card, achievements game layer, the
+chai cup, the old book site, and all photos of you.
 
 ---
 
-## 8. AUDIO (procedural, off by default)
+## 5. Technical plan
 
-Muted until the visitor flips the switch (a vinyl/record toggle). Built with **Web Audio**,
-mostly **procedural** to avoid heavy files:
-- Rain = filtered noise loop · Thunder = noise burst + lowpass sweep · Typewriter = short clack
-  per character · Phone ring at "the case begins" · a brief noir **sax sting** on the title.
-- Everything respects the toggle and `prefers-reduced-motion`/low-power.
-
----
-
-## 9. THE ART PIPELINE (how "illustrations" get made)
-
-No external image files. **Every illustration is a React component composing inline SVG**
-(paths, shapes, filters) styled with the halftone/ink CSS. This is what makes the assets
-"custom" *and* animatable (parallax, draw-on, posing).
-
-- A reusable **ink primitives library** (`components/art/`): skyline generator, rain layer,
-  posable figure, props, bubbles, caption boxes, speed lines, halftone overlay.
-- Panels compose these primitives by reading the script — so new panels are *authored data*,
-  not new artwork.
+- Next.js 15 (this project), rebuilt as the main site at `/`.
+- GSAP + ScrollTrigger for scroll storytelling, Lenis for smooth scrolling.
+- Architecture diagrams as hand-built SVG (sharp, light, fully animatable), not 3D.
+- One subtle canvas effect only in the hero network; everything else is DOM and SVG, so it stays fast.
+- Content in one file per section, from STORY.md.
+- Targets: first screen under 2.5 s on a mid-range phone, smooth 60 fps scrolling, full keyboard access.
 
 ---
 
-## 10. RESPONSIVE · ACCESSIBILITY · PERFORMANCE
+## 6. Build steps (each ends with your review)
 
-- **Responsive:** desktop = cinematic pinned panels; mobile = webtoon vertical scroll,
-  simplified parallax, big tap targets, corner toggles.
-- **Reduced motion:** `prefers-reduced-motion` → no parallax/ink-bleed, static panels,
-  instant reveals.
-- **A11y:** full **Transcript mode** — the entire story as semantic, screen-reader-readable
-  text; keyboard nav (←/→/Space advance, `M` mute, `R` rain); focus styles on all controls.
-- **Performance:** lazy-render off-screen chapters; pause rain canvas off-screen; throttle on
-  low-power; `will-change` budgeting; SVG over canvas where cheaper.
-
----
-
-## 11. "BEYOND" — the futuristic layer
-
-- **Director's commentary** — hover a panel to flip the noir metaphor into the *real*
-  engineering note (the "villain" becomes the actual stack trace; the "heist" becomes the
-  real deploy pipeline). The portfolio reads as story *and* as substance.
-- **Flashlight easter eggs** — hidden frames only the torch cursor reveals.
-- **Living time-of-day** — rain density and sky tone subtly shift to the visitor's local time.
-- **Clip-a-panel** — render any panel to a shareable PNG via canvas ("rip this page").
-- **Hidden alt-ending** — a Konami-code noir epilogue.
-- **Issue #2 teaser** — the finale seeds the next chapter of his career.
+| Step | What gets built | You approve |
+|---|---|---|
+| **1. Look Lock** | The hero plus one case study (Pravasa), in both "Ink & Signal" and "Paper & Ink" | Colours, fonts, motion feel |
+| **2. Foundation** | Page structure, top bar, smooth scroll, the request path, hero, "How I build", journey | Scrolling feel |
+| **3. Case studies** | All 5 case studies with live diagrams and demos | The project storytelling |
+| **4. Rest of the page** | More work grid, skills system, achievements, learning, contact | Whole page |
+| **5. Launch** | Phone pass, speed pass, SEO and share image, replace the old site, deploy | Go live |
 
 ---
 
-## 12. BUILD PHASES (the order of work)
+## 7. Needed from you
 
-> Build continuously, verify in-browser each phase. **Do not commit** until told.
-> ⚠️ Per `AGENTS.md`, this is a modified Next.js — read `node_modules/next/dist/docs/`
-> before writing framework code. Strip unused Three.js deps early.
-
-- **Phase 0 — Foundation:** scaffold, fonts, design tokens, global ink/halftone/grain CSS,
-  zustand store, remove R3F/Three deps.
-- **Phase 1 — Engine:** `script.ts` data model + `Comic`/`Chapter`/`Panel` + ScrollTrigger
-  scaffold proven on one demo chapter.
-- **Phase 2 — Ink library:** the `art/` primitives (skyline, rain, figure, props, bubbles,
-  captions, speed lines, halftone).
-- **Phase 3 — The story:** author all chapters 0→7 from the script.
-- **Phase 4 — Signature FX:** ink-bleed transitions, flashlight cursor, registration glitch.
-- **Phase 5 — Atmosphere:** rain canvas + procedural audio + toggles.
-- **Phase 6 — Reach:** webtoon/reader mode, reduced-motion, transcript, keyboard nav.
-- **Phase 7 — Polish:** "beyond" features, perf pass, `next build`.
-
----
-
-## 13. STACK (already installed)
-
-Next.js 15.5.19 (App Router, React 19) · GSAP 3 + `@gsap/react` (ScrollTrigger) ·
-Framer Motion (UI chrome only) · Zustand · Tailwind 4 + custom ink CSS · inline SVG + filters ·
-Web Audio (procedural). **Removing:** three / @react-three/* / postprocessing (unused here).
-
----
-
-*Awaiting the go-ahead. On your command I start at Phase 0 and build straight through.*
+Nothing blocking. Optional: the Pravasa screen recording, and any project
+screenshots you'd like added (for example the AUM platform, if allowed).

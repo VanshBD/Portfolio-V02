@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vansh Dobariya · End to End
 
-## Getting Started
+Portfolio of Vansh Dobariya, Full-Stack Developer (backend systems), Ahmedabad.
 
-First, run the development server:
+A scroll-driven site where every main project is explained as a live
+architecture diagram: as you scroll through the story, the request travels
+through the system. A "request path" runs down the page and ends at
+**200 OK** on the contact section.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What |
+|---|---|
+| `src/content/site.ts` | **All content**: profile, principles, journey, case studies (with diagrams), work, skills, achievements, résumé. Edit this file to update the site. |
+| `src/app/page.tsx` | The page: section order |
+| `src/app/resume/page.tsx` | Plain résumé view for recruiters (`/resume`) |
+| `src/site/` | Components: hero network, request path, case studies and diagrams, demos, work grid, skills map |
+| `src/app/globals.css` | Design tokens ("Ink & Signal" dark, "Paper & Ink" light) and all styles |
+| `public/media/projects/<id>/` | Project screenshots (`cover.webp`) and clips (`demo.mp4`) |
+| `public/resume.pdf` | Downloadable résumé |
+| `PLAN.md`, `STORY.md` | The plan and the locked story/facts the content comes from |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Adding a project
 
-## Learn More
+1. Add an entry to `work` in `src/content/site.ts` (title, line, stack, links).
+2. Drop a screenshot at `public/media/projects/<id>/cover.webp` and set `cover`.
 
-To learn more about Next.js, take a look at the following resources:
+## Adding a case study
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add an entry to `cases` in `src/content/site.ts`. Diagram boxes use a
+540 × 430 grid in three columns (x ≈ 10, 200, 384); each step lists which
+boxes and connections light up.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built for Vercel. Set `NEXT_PUBLIC_SITE_URL` to the final domain so share
+images and the sitemap use it.

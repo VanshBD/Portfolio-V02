@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# browser automation screenshots/logs
+.playwright-mcp/
+
+# private reference material, not for the website
+reference/
