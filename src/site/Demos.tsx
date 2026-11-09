@@ -101,7 +101,7 @@ export function LaEuropaDemo() {
 
   return (
     <div className="demo">
-      <div className="demo__bar"><i /><i /><i /><span>demo · not the live site</span></div>
+      <div className="demo__bar"><i /><i /><i /><span>demo · runs only in your browser</span></div>
       <div className="demo__panes">
         <form className="demo__pane" onSubmit={publish}>
           <p className="demo__label mono">Admin · new update</p>
@@ -129,7 +129,7 @@ export function LaEuropaDemo() {
           </div>
         </div>
       </div>
-      <p className="demo__hint">Try it: publish an update, or type some &lt;b&gt;HTML&lt;/b&gt; and watch it get cleaned.</p>
+      <p className="demo__hint">Try it: publish an update, or type some &lt;b&gt;HTML&lt;/b&gt; and watch it get cleaned. Nothing reaches the real La Europa site; it resets when you reload.</p>
     </div>
   );
 }

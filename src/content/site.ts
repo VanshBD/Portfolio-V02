@@ -190,7 +190,7 @@ export const cases: CaseStudy[] = [
     stack: ["Next.js", "React", "TypeScript", "Firestore", "Cloudinary", "Vercel"],
     metrics: [
       { value: "35", label: "destination pages" },
-      { value: "₹0", label: "monthly hosting, on free plans" },
+      { value: "8", label: "areas the staff run themselves" },
       { value: "3 Nov", label: "live since, 2026" },
     ],
     live: "https://www.laeuropaeducation.com",
@@ -199,11 +199,11 @@ export const cases: CaseStudy[] = [
     nodes: [
       { id: "stu", label: "Students", sub: "500+ helped", x: 14, y: 24, kind: "actor", info: "Students exploring 35 European study destinations." },
       { id: "site", label: "Public site", sub: "35 destinations", x: 14, y: 124, kind: "app", info: "Destinations, services, reviews, news and an enquiry form." },
-      { id: "admin", label: "Admin panel", sub: "staff-run", x: 14, y: 254, kind: "app", info: "Updates, enquiries with export, reviews, certificates, FAQs, team and settings." },
+      { id: "admin", label: "Admin panel", sub: "8 staff-run areas", x: 14, y: 254, kind: "app", info: "Staff run 8 areas themselves: updates, enquiries (with export), reviews, certificates, destinations, FAQs, team and settings." },
       { id: "staff", label: "Staff", x: 14, y: 354, kind: "actor", info: "The company's own team, no developer needed for updates." },
       { id: "server", label: "Server layer", sub: "server-only data", x: 200, y: 190, kind: "core", info: "Everything goes through the server. The browser never talks to the database." },
-      { id: "fs", label: "Firestore", sub: "free plan", x: 384, y: 14, kind: "data", info: "All content and enquiries, accessed only from the server." },
-      { id: "cdn", label: "Cloudinary", sub: "photos · PDFs", x: 384, y: 112, kind: "data", info: "Photos and certificate PDFs, via signed uploads, chosen to stay on free plans." },
+      { id: "fs", label: "Firestore", sub: "server-only", x: 384, y: 14, kind: "data", info: "All content and enquiries, accessed only from the server." },
+      { id: "cdn", label: "Cloudinary", sub: "photos · PDFs", x: 384, y: 112, kind: "data", info: "Photos and certificate PDFs, uploaded through signed requests from the server." },
       { id: "guard", label: "Security", sub: "headers · limits", x: 384, y: 230, kind: "ext", info: "Per-request security headers, rate-limited logins, and HTML cleaning on everything staff type." },
       { id: "dns", label: "Domain & email", sub: "MX · SPF · DMARC", x: 384, y: 340, kind: "ext", info: "Domain moved to Vercel with the company's email records rebuilt and verified." },
     ],
@@ -215,7 +215,7 @@ export const cases: CaseStudy[] = [
     steps: [
       { title: "The brief", body: "The old site ran on PHP and staff couldn't update it themselves. They needed a site they could run on their own.", nodes: ["stu", "site", "staff"], edges: ["stu>site"] },
       { title: "Run by its own staff", body: "Staff publish updates and manage enquiries, reviews, certificates and FAQs from their own admin panel.", nodes: ["staff", "admin", "server", "site"], edges: ["staff>admin", "admin>server", "site>server"] },
-      { title: "Boss fight: the database switch", body: "We started on Supabase, then moved to Firestore and Cloudinary mid-build: everything on free plans, and the browser never touches the database.", nodes: ["server", "fs", "cdn"], edges: ["server>fs", "server>cdn"] },
+      { title: "Boss fight: the database switch", body: "We started on Supabase, then moved to Firestore and Cloudinary mid-build, so the browser never touches the database and every upload goes through the server.", nodes: ["server", "fs", "cdn"], edges: ["server>fs", "server>cdn"] },
       { title: "Locked down", body: "Security headers on every request, rate-limited logins, and everything staff type is cleaned before visitors see it.", nodes: ["server", "guard"], edges: ["server>guard"] },
       { title: "Boss fight: the vanishing email", body: "Moving the domain dropped the company's email records. We rebuilt them, added DMARC, and verified them live before any mail bounced.", nodes: ["server", "dns"], edges: ["server>dns"] },
       { title: "Live", body: "Live at laeuropaeducation.com since 3 November 2026.", nodes: ["stu", "site", "admin", "staff", "server", "fs", "cdn", "guard", "dns"] },
