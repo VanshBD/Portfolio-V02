@@ -221,6 +221,8 @@ status timeline move from Paid to Docs verified to At embassy to Visa approved.
 - Every team gets exactly the access it needs.
 - Stay fast under heavy data.
 
+**Roles and modules (from Vansh):** the super admin creates custom roles, reviews analytics and sales, and has full access. Sales managers review each seller, transfer leads, and check lead status and follow-ups. Marketing posts blogs, updates website content and runs the calendar. Tech reviews issues, monitoring, API tests, logs and IPs. Warehouse managers see their own stock, sales and workers' check-ins. Accountants see sales per warehouse and company-wide, revenue and turnover, generate bills and one-click documentation. Every role has task management. There is an anonymous suggestion box: records are encrypted, only the super admin can read them, and even they can't see the author.
+
 **What I built:** the whole backend architecture. Many services joined into
 one system, built for heavy data, with role-based access for every team:
 super admin, admin, sales manager, marketing, tech support, warehouse
