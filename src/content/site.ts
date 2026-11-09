@@ -32,9 +32,11 @@ export const principles = [
   },
   {
     key: "Correct",
-    line: "Data that always adds up.",
-    stat: { to: 15, suffix: "", label: "permission areas in Pravasa Transworld's admin, each with view or manage access" },
-    proof: "Live on Pravasa: passports behind one-hour private links, GST charged only on the service fee, payments matched by transaction reference.",
+    line: "Nothing runs until it's safe to run.",
+    stat: { to: 5, suffix: "", label: "checks on every ObscurPilot voice command before it runs" },
+    checks: ["Schema", "Permission", "No duplicates", "Timeout", "Audit"],
+    link: { href: "#case-obscurpilot", label: "Try it on Pilot" },
+    proof: "Risky actions like a ban always wait for the creator's approval. Same rule on Pravasa: 15 permission areas, and passports behind one-hour private links.",
   },
   {
     key: "Running",

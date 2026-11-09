@@ -1,4 +1,5 @@
 import { principles, achievements, learning, profile } from "@/content/site";
+import { CheckPills } from "./CheckPills";
 
 /* ── How I build ── */
 export function HowIBuild() {
@@ -19,7 +20,9 @@ export function HowIBuild() {
                   : <span data-count data-to={p.stat.to} data-suffix={p.stat.suffix}>{p.stat.to}{p.stat.suffix}</span>}
               </p>
               <p className="how__stat-label">{p.stat.label}</p>
+              {p.checks && <CheckPills checks={p.checks} />}
               <p className="how__proof">{p.proof}</p>
+              {p.link && <a className="how__link mono" href={p.link.href}>{p.link.label} ↘</a>}
             </article>
           ))}
         </div>

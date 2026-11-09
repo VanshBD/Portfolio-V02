@@ -26,7 +26,7 @@ const COMMANDS: Command[] = [
   { id: "ban", label: "Ban a spammer", say: "Ban the account spamming links", plan: ['twitch.chat.find({ pattern: "links" })', 'twitch.moderation.ban({ user: "spam_bot_92" })'], ask: "Permanently ban spam_bot_92? Bans always need your approval.", log: ["Twitch · spam_bot_92 banned"] },
 ];
 
-const CHECKS = ["Schema valid", "Permission granted", "Not a duplicate", "Timeout set"];
+const CHECKS = ["Schema valid", "Permission granted", "Not a duplicate", "Timeout set", "Audit logged"];
 
 const STATUS: Record<Phase, string> = {
   idle: "Hold Alt + X, or pick a command",

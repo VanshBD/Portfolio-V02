@@ -674,3 +674,16 @@ img, video { display: block; max-width: 100%; }
 .art__total { margin: 6px 0 0; font-size: 0.78rem; color: var(--dim); }
 .art__total b { color: var(--ok); font-size: 1rem; }
 .pc-log li.pc-empty { color: var(--steel); }
+
+/* "How I build" card 2: ObscurPilot's checks tick on one by one */
+.how__checks { list-style: none; margin: -8px 0 20px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.how__checks li {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line-strong); font: 500 0.76rem var(--font-mono-stack); color: var(--steel);
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s, transform 0.3s;
+}
+.how__checks li span { width: 10px; text-align: center; }
+.how__checks li.is-ok { color: var(--paper); border-color: color-mix(in srgb, var(--ok) 55%, transparent); background: var(--ok-soft); transform: translateY(-1px); }
+.how__checks li.is-ok span { color: var(--ok); font-weight: 700; }
+.how__link { display: inline-block; margin-top: 14px; font-size: 0.8rem; color: var(--signal); text-decoration: none; }
+.how__link:hover { text-decoration: underline; }
