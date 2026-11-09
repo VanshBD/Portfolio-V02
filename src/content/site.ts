@@ -28,7 +28,7 @@ export const principles = [
     key: "Fast",
     line: "Responses that don't make anyone wait.",
     stat: { to: 48, suffix: "%", label: "faster API responses across 6 enterprise systems" },
-    proof: "Redis caching and MongoDB index tuning at AUM Industries. OVX-1 answers in 9.43 ms.",
+    proof: "Redis caching and MongoDB index tuning at AUM Industries. BillStack's API latency down 60%.",
   },
   {
     key: "Correct",
@@ -78,7 +78,8 @@ export interface CaseStudy {
   live?: string;
   code?: string;
   cover?: string;
-  demo?: "pravasa" | "laeuropa";
+  demo?: "pravasa" | "laeuropa" | "pilot";
+  video?: string;
   nodes: DNode[];
   edges: DEdge[];
   steps: Step[];
@@ -264,54 +265,57 @@ export const cases: CaseStudy[] = [
     ],
   },
   {
-    id: "ovx",
+    id: "obscurpilot",
     index: "05",
-    name: "OVX-1 Voice RAG",
-    kicker: "Hacker House Goa · Task 2 · Obscur Labs",
-    summary: "Ask by voice in Hindi or English and get an answer only from real sources, or an honest \"I don't know\". In under 200 ms.",
-    role: "Performance: sub-2 ms query pipeline, LRU cache, benchmark UI, evaluation",
+    name: "ObscurPilot",
+    kicker: "Obscur Labs · Hacker House Goa · Desktop app",
+    summary: "A voice copilot for solo live streamers. Hold Alt + X, say what you want, and Pilot, a glass robot with an LED face, plans it, asks before anything risky, and runs it on OBS and Twitch.",
+    role: "Stages 0 to 5 of the core, plus the live-session setup",
     credit: "Built with Yaksh Bambhroliya as Obscur Labs",
-    stack: ["Python", "ONNX int8", "HNSW", "BM25", "Sarvam STT", "Groq"],
+    stack: ["Electron", "React", "TypeScript", "Wispr Flow", "Groq", "OBS WebSocket", "Twitch EventSub", "Supabase"],
     metrics: [
-      { value: "9.43 ms", label: "median answer time" },
-      { value: "0%", label: "false answers" },
-      { value: "1.17M", label: "chunks indexed" },
+      { value: "Alt + X", label: "hold, talk, and your stream listens" },
+      { value: "6", label: "trust boundaries designed in" },
+      { value: "0–5", label: "core stages I built, each with an acceptance record" },
     ],
-    live: "https://ovx-1-voice-rag.onrender.com",
-    code: ob("OVX-1"),
+    code: ob("ObscurPilot"),
+    cover: "/media/projects/obscurpilot/cover.webp",
+    video: "/media/projects/obscurpilot/demo.mp4",
+    demo: "pilot",
     nodes: [
-      { id: "voice", label: "Voice", sub: "Hindi · English", x: 10, y: 20, kind: "actor", info: "A spoken question in Hindi or English." },
-      { id: "stt", label: "Speech to text", sub: "Sarvam", x: 10, y: 130, kind: "ext", info: "Transcription, measured separately from the 200 ms budget." },
-      { id: "guard", label: "Input guard", sub: "unsafe · injection", x: 10, y: 250, kind: "core", info: "Blocks unsafe input, prompt injection and junk before any search runs. 100% blocked." },
-      { id: "enc", label: "Encoder", sub: "ONNX int8 · CPU", x: 198, y: 20, kind: "core", info: "Turns the question into a vector in about 3.9 ms, on CPU." },
-      { id: "vec", label: "Vector search", sub: "1.17M chunks", x: 198, y: 120, kind: "data", info: "Meaning-based search. A Hindi question can match an English passage." },
-      { id: "kw", label: "Keyword search", sub: "BM25", x: 198, y: 220, kind: "data", info: "Exact-word search, which vector search is vague about." },
-      { id: "fuse", label: "Fusion", sub: "RRF", x: 198, y: 330, kind: "core", info: "Combines both ranked lists without needing comparable scores." },
-      { id: "rel", label: "Relevance guard", sub: "is it covered?", x: 386, y: 20, kind: "core", info: "Refuses questions the sources can't answer. 100% of out-of-corpus questions refused." },
-      { id: "ext", label: "Extractive answer", sub: "93% · ~2 ms", x: 386, y: 130, kind: "app", info: "The answer is taken word for word from the best passage: instant, and impossible to make up." },
-      { id: "llm", label: "AI escalation", sub: "6.7% · opt-in", x: 386, y: 240, kind: "ext", info: "Only low-confidence questions go to the AI model." },
-      { id: "out", label: "Answer or \"I don't know\"", x: 386, y: 346, w: 150, kind: "actor", info: "Grounded answers, honest refusals, 0% false answers." },
+      { id: "creator", label: "Creator", sub: "hold Alt + X", x: 10, y: 20, kind: "actor", info: "A solo streamer who's busy playing. They hold Alt + X and just say what they want." },
+      { id: "ptt", label: "Push-to-talk", sub: "local audio", x: 10, y: 130, kind: "app", info: "Audio is captured locally only while the key is held. I built this audio pipeline." },
+      { id: "ui", label: "Pilot UI", sub: "screen · no secrets", x: 10, y: 300, kind: "app", info: "The desktop screen, starring Pilot. It's treated as untrusted: it never sees a token, only a narrow, typed API." },
+      { id: "stt", label: "Wispr Flow", sub: "transcription", x: 200, y: 20, kind: "ext", info: "Turns the spoken request into text." },
+      { id: "plan", label: "Intent planner", sub: "Groq · fixed tools", x: 200, y: 130, kind: "core", info: "An AI model plans the steps, but can only pick from a fixed catalogue of tools, never free-form actions." },
+      { id: "gate", label: "Safety gate", sub: "schema · approval", x: 200, y: 240, kind: "core", info: "Every command is schema-checked, permission-checked, can't run twice by accident, is audited and times out. Risky moderation waits for the creator's approval." },
+      { id: "core", label: "Main process", sub: "owns secrets · IPC", x: 200, y: 350, kind: "core", info: "Holds the credentials and runs commands. The secure desktop shell and its IPC spine were part of my stages." },
+      { id: "obs", label: "OBS", sub: "local bridge", x: 384, y: 20, kind: "ext", info: "Scenes, sources and streaming, controlled over OBS's authenticated local WebSocket. I built the OBS bridge." },
+      { id: "twitch", label: "Twitch", sub: "Helix · EventSub", x: 384, y: 128, kind: "ext", info: "Stream info, chat events and moderation through the Twitch APIs." },
+      { id: "supa", label: "Supabase", sub: "identity · RLS", x: 384, y: 236, kind: "data", info: "Accounts and settings, protected by row-level security so each creator only ever reaches their own data." },
+      { id: "log", label: "Activity log", sub: "audited · redacted", x: 384, y: 344, kind: "data", info: "Every step is logged as structured JSON, with credentials and audio redacted." },
     ],
     edges: [
-      { from: "voice", to: "stt" }, { from: "stt", to: "guard" }, { from: "guard", to: "enc" },
-      { from: "enc", to: "vec" }, { from: "enc", to: "kw" }, { from: "vec", to: "fuse" }, { from: "kw", to: "fuse" },
-      { from: "fuse", to: "rel" }, { from: "rel", to: "ext" }, { from: "rel", to: "llm" }, { from: "ext", to: "out" }, { from: "llm", to: "out" },
+      { from: "creator", to: "ptt" }, { from: "ptt", to: "stt" }, { from: "stt", to: "plan" }, { from: "plan", to: "gate" },
+      { from: "gate", to: "ui" }, { from: "gate", to: "core" },
+      { from: "core", to: "obs" }, { from: "core", to: "twitch" }, { from: "core", to: "supa" }, { from: "core", to: "log" },
     ],
     steps: [
-      { title: "The 200 ms wall", body: "Answer voice questions from real sources in under 200 ms, when a hosted AI model alone needs 200 to 600 ms just to start.", nodes: ["voice", "stt"], edges: ["voice>stt"] },
-      { title: "Guard first", body: "Unsafe input and prompt injection are blocked before any search runs: 100% blocked.", nodes: ["stt", "guard"], edges: ["stt>guard"] },
-      { title: "Search two ways", body: "Meaning-based and keyword search over 1.17 million chunks, fused into one ranking.", nodes: ["guard", "enc", "vec", "kw", "fuse"], edges: ["guard>enc", "enc>vec", "enc>kw", "vec>fuse", "kw>fuse"] },
-      { title: "Skip the slow part", body: "93% of answers come word for word from the best passage, so they're instant and can't be made up. Only 6.7% go to the AI.", nodes: ["fuse", "rel", "ext", "llm"], edges: ["fuse>rel", "rel>ext", "rel>llm"] },
-      { title: "Know when not to answer", body: "Questions the sources can't answer get an honest \"I don't know\": 0% false answers.", nodes: ["rel", "ext", "llm", "out"], edges: ["ext>out", "llm>out"] },
-      { title: "Result", body: "Median answer in 9.43 ms, 100% under 200 ms. My part: the sub-2 ms query pipeline, LRU cache, benchmark UI and evaluation framework.", nodes: ["voice", "stt", "guard", "enc", "vec", "kw", "fuse", "rel", "ext", "llm", "out"] },
+      { title: "The problem", body: "Solo streamers juggle OBS, Twitch, chat and their game at the same time, with no one to help.", nodes: ["creator"] },
+      { title: "Hold Alt + X and talk", body: "Push-to-talk captures the audio locally and Wispr Flow turns it into text. I built the audio pipeline.", nodes: ["creator", "ptt", "stt"], edges: ["creator>ptt", "ptt>stt"] },
+      { title: "Plan with fixed tools", body: "An AI planner turns the request into steps, but it can only choose from a fixed catalogue of tools.", nodes: ["stt", "plan"], edges: ["stt>plan"] },
+      { title: "Trust the voice, not the screen", body: "Every command is checked, can't run twice and times out. Risky actions like a permanent ban stop and ask the creator first.", nodes: ["plan", "gate", "ui"], edges: ["plan>gate", "gate>ui"] },
+      { title: "Act on OBS and Twitch", body: "The main process holds every secret and talks to OBS over a local socket and to Twitch through its APIs. The screen never sees a token.", nodes: ["gate", "core", "obs", "twitch"], edges: ["gate>core", "core>obs", "core>twitch"] },
+      { title: "Remember, safely", body: "Identity and settings live in Supabase behind row-level security, and every step lands in an audited, redacted activity log.", nodes: ["core", "supa", "log"], edges: ["core>supa", "core>log"] },
+      { title: "Built in gated stages", body: "I built stages 0 to 5: architecture, monorepo, secure desktop shell, domain kernel, audio pipeline and the OBS bridge. For Hacker House Goa we rebuilt the whole UI around Pilot.", nodes: ["creator", "ptt", "ui", "stt", "plan", "gate", "core", "obs", "twitch", "supa", "log"] },
     ],
   },
 ];
 
 /* ── More work ── */
-export interface Work { id: string; title: string; kind: string; line: string; stack: string[]; live?: string; code?: string; cover?: string; video?: string; art?: "hospital" | "swiftrut" }
+export interface Work { id: string; title: string; kind: string; line: string; stack: string[]; live?: string; code?: string; cover?: string; video?: string; art?: "hospital" | "swiftrut" | "ovx" }
 export const work: Work[] = [
-  { id: "obscurpilot", title: "ObscurPilot", kind: "Obscur Labs · Hacker House Goa", line: "Hold Alt + X and talk to your stream: a voice copilot for OBS and Twitch, starring Pilot. I built stages 0 to 5 of the core.", stack: ["Electron", "React", "TypeScript", "Groq"], code: ob("ObscurPilot"), cover: "/media/projects/obscurpilot/cover.webp", video: "/media/projects/obscurpilot/demo.mp4" },
+  { id: "ovx", title: "OVX-1 Voice RAG", kind: "Obscur Labs · Hacker House Goa", line: "Ask by voice in Hindi or English and get an answer from 1.17 million indexed chunks, with a 9.43 ms median. I built the sub-2 ms query pipeline and the benchmark UI.", stack: ["Python", "ONNX", "HNSW", "BM25"], live: "https://ovx-1-voice-rag.onrender.com", code: ob("OVX-1"), art: "ovx" },
   { id: "statescry", title: "StateScry", kind: "Developer tool · on npm", line: "Maps a running web app into a behaviour graph that coding agents can query, replay and compare.", stack: ["TypeScript", "Playwright", "MCP"], live: "https://statescry.vercel.app", code: gh("StateScry"), cover: "/media/projects/statescry/cover.webp" },
   { id: "hospital", title: "Hospital Management", kind: "AUM Industries · Private", line: "Reception books appointments, doctors keep notes, and patients get automatic check-up and medicine reminders.", stack: ["Node.js", "MongoDB", "Notifications"], art: "hospital" },
   { id: "phantom", title: "PHANTOM-CARBON", kind: "AI · GDG HackToSkill 2025", line: "Finds the 71% of a carbon footprint normal trackers miss. Vision AI reads receipts; 151 tests passing.", stack: ["Next.js", "Groq", "MongoDB"], live: "https://phantom-carbon.vercel.app", code: gh("PHANTOM-CARBON"), cover: "/media/projects/phantom/cover.webp" },
@@ -336,8 +340,8 @@ export const projectIndex: { id: string; name: string; href: string; skills: str
   { id: "aum", name: "AUM Platform", href: "#case-aum", skills: ["Node.js", "Express", "REST APIs", "RBAC", "JWT / OAuth", "Microservices", "MongoDB", "Redis", "Nginx", "PM2"] },
   { id: "laeuropa", name: "La Europa", href: "#case-laeuropa", skills: ["Next.js", "React", "TypeScript", "Firestore", "Rate limiting", "Vercel"] },
   { id: "afi", name: "AFI Agent", href: "#case-afi", skills: ["TypeScript", "TigerGraph", "Agents", "MCP", "RAG", "Groq"] },
-  { id: "ovx", name: "OVX-1", href: "#case-ovx", skills: ["RAG", "Groq", "Docker"] },
-  { id: "obscurpilot", name: "ObscurPilot", href: "#work", skills: ["Electron", "React", "TypeScript", "Groq", "WebSockets", "Agents"] },
+  { id: "ovx", name: "OVX-1", href: "#more", skills: ["RAG", "Groq", "Docker"] },
+  { id: "obscurpilot", name: "ObscurPilot", href: "#case-obscurpilot", skills: ["Electron", "React", "TypeScript", "Groq", "WebSockets", "Agents"] },
   { id: "statescry", name: "StateScry", href: "#work", skills: ["TypeScript", "MCP", "Agents"] },
   { id: "teamos", name: "TeamOS", href: "#work", skills: ["React", "Node.js", "Express", "MongoDB", "WebSockets", "JWT / OAuth", "Vercel"] },
   { id: "billstack", name: "BillStack", href: "#work", skills: ["React", "Node.js", "Express", "MongoDB", "REST APIs", "Vercel"] },

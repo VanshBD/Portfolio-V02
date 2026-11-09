@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CaseStudy as CS } from "@/content/site";
 import { Diagram } from "./Diagram";
 import { PravasaDemo, LaEuropaDemo } from "./Demos";
+import { PilotDemo } from "./PilotDemo";
 
 /*
   One case study. The story steps scroll on the left; the architecture
@@ -94,14 +95,22 @@ export function CaseStudy({ cs }: { cs: CS }) {
         </div>
 
         {(cs.demo || cs.cover) && (
-          <div className={`case__extra${cs.demo && cs.cover ? " has-two" : ""}`}>
+          <div className={`case__extra${cs.demo && cs.cover && cs.demo !== "pilot" ? " has-two" : ""}${cs.demo === "pilot" ? " is-pilot" : ""}`}>
             {cs.demo && (
               <div data-reveal>
                 <p className="eyebrow eyebrow--dim">Try it</p>
-                {cs.demo === "pravasa" ? <PravasaDemo /> : <LaEuropaDemo />}
+                {cs.demo === "pravasa" ? <PravasaDemo /> : cs.demo === "pilot" ? <PilotDemo /> : <LaEuropaDemo />}
               </div>
             )}
-            {cs.cover && (
+            {cs.video ? (
+              <div className="shot" data-reveal>
+                <p className="eyebrow eyebrow--dim">Watch the launch film</p>
+                <span className="shot__frame">
+                  <span className="shot__bar"><i /><i /><i /><b>ObscurPilot · launch film</b></span>
+                  <video src={cs.video} poster={cs.cover} controls muted playsInline preload="none" aria-label={`${cs.name} launch film`} />
+                </span>
+              </div>
+            ) : cs.cover && (
               <a className="shot" href={cs.live} target="_blank" rel="noopener noreferrer" data-reveal>
                 <p className="eyebrow eyebrow--dim">See it live</p>
                 <span className="shot__frame">

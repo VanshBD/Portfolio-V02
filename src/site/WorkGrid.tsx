@@ -4,7 +4,18 @@ import { useRef, type PointerEvent } from "react";
 import { work, type Work } from "@/content/site";
 
 /* Drawn covers for private work that has no public screenshots. */
-function Art({ kind }: { kind: "hospital" | "swiftrut" }) {
+function Art({ kind }: { kind: "hospital" | "swiftrut" | "ovx" }) {
+  if (kind === "ovx") {
+    return (
+      <div className="art art--ovx" aria-hidden="true">
+        <p className="art__q">“भारत की राजधानी क्या है?” · “What is the capital of India?”</p>
+        {[["guard", 6], ["encode", 18], ["search", 30], ["answer", 12]].map(([k, w]) => (
+          <div key={k} className="art__bar"><span>{k}</span><i style={{ width: `${w}%` }} /></div>
+        ))}
+        <p className="art__total"><b>9.43 ms</b> median · 1.17M chunks</p>
+      </div>
+    );
+  }
   if (kind === "hospital") {
     return (
       <div className="art art--hospital" aria-hidden="true">
