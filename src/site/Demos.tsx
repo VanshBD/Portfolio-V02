@@ -28,7 +28,10 @@ export function PravasaDemo() {
   useEffect(() => {
     if (!playing) return;
     const t = window.setTimeout(() => {
-      if (stage >= last) { setPlaying(false); return; }
+      if (stage >= last) {
+        setPlaying(false);
+        return;
+      }
       setStage(stage + 1);
       setToast(`Status changed: ${STAGES[stage + 1].name}`);
     }, 1300);
@@ -43,27 +46,56 @@ export function PravasaDemo() {
 
   return (
     <div className="demo">
-      <div className="demo__bar"><i /><i /><i /><span>demo · application PRS-UNI-00142</span></div>
+      <div className="demo__bar">
+        <i />
+        <i />
+        <i />
+        <span>demo · application PRS-UNI-00142</span>
+      </div>
       <div className="demo__body pravasa-demo">
         <p className="demo__label mono">e-Visa · Dubai · 30 days</p>
         <ol className="pipeline">
           {STAGES.map((st, i) => (
-            <li key={st.name} className={i < stage ? "is-done" : i === stage ? "is-now" : ""}>
-              <span className="pipeline__dot" aria-hidden="true">{i < stage ? "✓" : ""}</span>
+            <li
+              key={st.name}
+              className={i < stage ? "is-done" : i === stage ? "is-now" : ""}
+            >
+              <span className="pipeline__dot" aria-hidden="true">
+                {i < stage ? "✓" : ""}
+              </span>
               <span className="pipeline__name">{st.name}</span>
               <span className="pipeline__note">{st.note}</span>
             </li>
           ))}
         </ol>
         <div className="demo__actions">
-          <button type="button" className="btn btn--primary btn--sm" onClick={() => { setPlaying(false); advance(); }}>
+          <button
+            type="button"
+            className="btn btn--primary btn--sm"
+            onClick={() => {
+              setPlaying(false);
+              advance();
+            }}
+          >
             {stage >= STAGES.length - 1 ? "Start over" : "Advance status"}
           </button>
-          <button type="button" className="btn btn--ghost btn--sm" onClick={() => { setStage(0); setPlaying(true); }} disabled={playing}>
+          <button
+            type="button"
+            className="btn btn--ghost btn--sm"
+            onClick={() => {
+              setStage(0);
+              setPlaying(true);
+            }}
+            disabled={playing}
+          >
             Play the whole journey
           </button>
         </div>
-        <div className={`toast${toast ? " is-on" : ""}`} role="status" aria-live="polite">
+        <div
+          className={`toast${toast ? " is-on" : ""}`}
+          role="status"
+          aria-live="polite"
+        >
           <span className="live-dot" aria-hidden="true" /> {toast ?? ""}
           <small>real-time alert · traveller + staff</small>
         </div>
@@ -73,8 +105,23 @@ export function PravasaDemo() {
 }
 
 /* ── La Europa: publish from the admin panel, see it on the site ── */
-const COUNTRIES = ["United Kingdom", "Ireland", "Germany", "France", "Italy", "Netherlands", "Spain", "Poland"];
-interface Post { id: number; title: string; country: string; when: string; fresh?: boolean }
+const COUNTRIES = [
+  "United Kingdom",
+  "Ireland",
+  "Germany",
+  "France",
+  "Italy",
+  "Netherlands",
+  "Spain",
+  "Poland",
+];
+interface Post {
+  id: number;
+  title: string;
+  country: string;
+  when: string;
+  fresh?: boolean;
+}
 type Msg = { kind: "ok" | "err" | "warn"; text: string } | null;
 
 export function LaEuropaDemo() {
@@ -82,54 +129,127 @@ export function LaEuropaDemo() {
   const [country, setCountry] = useState(COUNTRIES[2]);
   const [msg, setMsg] = useState<Msg>(null);
   const [posts, setPosts] = useState<Post[]>([
-    { id: 2, title: "Student Visa Documents: A General Checklist", country: "All destinations", when: "Sample post" },
-    { id: 1, title: "How to Choose the Right Country in Europe for Your Studies", country: "All destinations", when: "Sample post" },
+    {
+      id: 2,
+      title: "Student Visa Documents: A General Checklist",
+      country: "All destinations",
+      when: "Sample post",
+    },
+    {
+      id: 1,
+      title: "How to Choose the Right Country in Europe for Your Studies",
+      country: "All destinations",
+      when: "Sample post",
+    },
   ]);
 
   const publish = (e: FormEvent) => {
     e.preventDefault();
     const raw = title.trim();
-    if (!raw) { setMsg({ kind: "err", text: "Add a title to publish." }); return; }
-    const clean = raw.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-    if (!clean) { setMsg({ kind: "err", text: "That title was only HTML, which the site removes. Add some words." }); return; }
-    setPosts((p) => [{ id: Date.now(), title: clean, country, when: "Just now", fresh: true }, ...p.map((x) => ({ ...x, fresh: false }))].slice(0, 3));
+    if (!raw) {
+      setMsg({ kind: "err", text: "Add a title to publish." });
+      return;
+    }
+    const clean = raw
+      .replace(/<[^>]*>/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!clean) {
+      setMsg({
+        kind: "err",
+        text: "That title was only HTML, which the site removes. Add some words.",
+      });
+      return;
+    }
+    setPosts((p) =>
+      [
+        {
+          id: Date.now(),
+          title: clean,
+          country,
+          when: "Just now",
+          fresh: true,
+        },
+        ...p.map((x) => ({ ...x, fresh: false })),
+      ].slice(0, 3),
+    );
     setTitle("");
-    setMsg(clean !== raw
-      ? { kind: "warn", text: "Published. The HTML tags were removed: the site cleans everything staff type." }
-      : { kind: "ok", text: "Published. It's on the website now." });
+    setMsg(
+      clean !== raw
+        ? {
+            kind: "warn",
+            text: "Published. The HTML tags were removed: the site cleans everything staff type.",
+          }
+        : { kind: "ok", text: "Published. It's on the website now." },
+    );
   };
 
   return (
     <div className="demo">
-      <div className="demo__bar"><i /><i /><i /><span>demo · runs only in your browser</span></div>
+      <div className="demo__bar">
+        <i />
+        <i />
+        <i />
+        <span>demo · runs only in your browser</span>
+      </div>
       <div className="demo__panes">
         <form className="demo__pane" onSubmit={publish}>
           <p className="demo__label mono">Admin · new update</p>
-          <label className="field">Title
-            <input value={title} maxLength={90} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. March intake is open" />
+          <label className="field">
+            Title
+            <input
+              value={title}
+              maxLength={90}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. March intake is open"
+            />
           </label>
-          <label className="field">Destination
-            <select value={country} onChange={(e) => setCountry(e.target.value)}>
-              {COUNTRIES.map((c) => <option key={c}>{c}</option>)}
+          <label className="field">
+            Destination
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              {COUNTRIES.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
             </select>
           </label>
-          <button type="submit" className="btn btn--primary btn--sm btn--block">Publish</button>
-          <p className={`demo__msg${msg ? ` is-${msg.kind}` : ""}`} role="status">{msg?.text}</p>
+          <button type="submit" className="btn btn--primary btn--sm btn--block">
+            Publish
+          </button>
+          <p
+            className={`demo__msg${msg ? ` is-${msg.kind}` : ""}`}
+            role="status"
+          >
+            {msg?.text}
+          </p>
         </form>
-        <div className="demo__pane demo__pane--site" aria-label="Website preview">
+        <div
+          className="demo__pane demo__pane--site"
+          aria-label="Website preview"
+        >
           <p className="demo__label mono">Website · latest updates</p>
           <p className="demo__brand">LA Europa</p>
           <div className="demo__posts">
             {posts.map((p) => (
-              <div key={p.id} className={`demo__post${p.fresh ? " is-new" : ""}`}>
-                <small>{p.country} · {p.when}</small>
+              <div
+                key={p.id}
+                className={`demo__post${p.fresh ? " is-new" : ""}`}
+              >
+                <small>
+                  {p.country} · {p.when}
+                </small>
                 {p.title}
               </div>
             ))}
           </div>
         </div>
       </div>
-      <p className="demo__hint">Try it: publish an update, or type some &lt;b&gt;HTML&lt;/b&gt; and watch it get cleaned. Nothing reaches the real La Europa site; it resets when you reload.</p>
+      <p className="demo__hint">
+        Try it: publish an update, or type some &lt;b&gt;HTML&lt;/b&gt; and
+        watch it get cleaned.
+      </p>
     </div>
   );
 }

@@ -911,3 +911,85 @@ img, video { display: block; max-width: 100%; }
 .compose__res { color: var(--steel); }
 .compose__res.is-ok { color: var(--ok); }
 @media (max-width: 860px) { .compose { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   JOURNEY AS A GIT HISTORY
+   ============================================================ */
+.journey { --lane-main: var(--signal); --lane-builds: var(--ok); --lane-hackathons: #8fa8ff; overflow: clip; }
+[data-theme="light"] .journey { --lane-hackathons: #3a5bd9; }
+.journey__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 40px; align-items: end; position: relative; z-index: 1; }
+.journey__legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 18px 0 0; font-size: 0.74rem; color: var(--steel); }
+.journey__legend span { display: inline-flex; align-items: center; gap: 7px; }
+.journey__legend i { width: 18px; height: 3px; border-radius: 2px; background: var(--lane); }
+
+.gitlog { margin: 0; padding: 16px 18px; border-radius: 16px; border: 1px solid var(--line); background: color-mix(in srgb, var(--slate) 85%, transparent); backdrop-filter: blur(8px); font-size: 0.76rem; min-height: 168px; }
+.gitlog__cmd { margin: 0 0 10px; color: var(--steel); }
+.gitlog__cmd span { color: var(--ok); }
+.gitlog ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.gitlog li { color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: gitlog-in 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+.gitlog li:first-child { color: var(--paper); }
+.gitlog li b { color: var(--lane); }
+.gitlog__hash { color: #e8c15a; }
+[data-theme="light"] .gitlog__hash { color: #a87a00; }
+.gitlog__ref { color: var(--lane); font-weight: 600; }
+.gitlog__br { color: var(--lane); }
+.gitlog__empty { color: var(--steel); }
+@keyframes gitlog-in { from { opacity: 0; transform: translateY(-8px); background: var(--signal-soft); } }
+
+.journey__year { display: none; }
+.jgraph { display: none; }
+
+/* vertical log (phones, reduced motion) */
+.journey__stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.journey:not(.is-horizontal) .journey__track { display: block; }
+.journey:not(.is-horizontal) .stop { margin: 0; padding: 16px 18px; border: 1px solid var(--line); border-left: 3px solid var(--lane); border-radius: 14px; background: var(--slate); }
+.stop { position: relative; cursor: pointer; outline-offset: 4px; }
+.stop__meta { display: flex; gap: 10px; margin: 0; font-size: 0.74rem; color: var(--steel); }
+.stop__hash { color: var(--lane); }
+.stop__title { margin: 8px 0 6px; font: 700 1.2rem/1.15 var(--font-display-stack); letter-spacing: -0.02em; }
+.stop__text { margin: 0; color: var(--dim); font-size: 0.92rem; }
+.stop__branch { display: inline-block; margin-top: 12px; padding: 3px 9px; border-radius: 999px; font-size: 0.68rem; color: var(--lane); background: color-mix(in srgb, var(--lane) 14%, transparent); }
+
+/* wide: pinned, HEAD walks the graph */
+.journey.is-horizontal .journey__head { margin-bottom: 26px; }
+.journey.is-horizontal .journey__year {
+  display: block; position: absolute; right: -1vw; bottom: -3vh; z-index: 0; pointer-events: none;
+  font: 800 clamp(160px, 24vw, 380px)/0.8 var(--font-display-stack); letter-spacing: -0.06em;
+  color: transparent; -webkit-text-stroke: 1px var(--line-strong); animation: year-in 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes year-in { from { opacity: 0; transform: translateY(18%); } }
+.journey.is-horizontal .journey__viewport { position: relative; z-index: 1; }
+.journey.is-horizontal .journey__track { display: block; gap: 0; padding-right: 80px; }
+.journey.is-horizontal .jgraph { display: block; overflow: visible; }
+.jgraph path { fill: none; stroke-width: 3; stroke-linecap: round; }
+.jgraph__ghost path { stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 2 6; }
+.jgraph__lit path { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--signal) 45%, transparent)); }
+.jgraph__nexttext { fill: var(--steel); font: 500 11px var(--font-mono-stack); }
+.jnode__dot { fill: var(--ink); stroke: var(--lane); stroke-width: 2.5; transform-box: fill-box; transform-origin: center; transform: scale(0.6); transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), fill 0.3s; }
+.jnode.is-on .jnode__dot { fill: var(--lane); transform: scale(1); }
+.jnode.is-hover .jnode__dot { transform: scale(1.35); }
+.jnode__ring { fill: none; stroke: var(--lane); stroke-width: 1.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.jnode.is-head .jnode__ring { animation: jring 1.8s ease-out infinite; }
+@keyframes jring { from { opacity: 0.9; transform: scale(0.5); } to { opacity: 0; transform: scale(1.6); } }
+.jhead line { stroke: var(--signal); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: 0.7; }
+.jhead rect { fill: var(--signal); }
+.jhead text { fill: var(--on-signal); font: 700 10px var(--font-mono-stack); letter-spacing: 0.06em; }
+
+.journey.is-horizontal .journey__stops { display: flex; gap: 0; margin-top: 8px; }
+.journey.is-horizontal .stop {
+  flex: none; width: 272px; margin: 0 28px 0 0; padding: 16px; border-radius: 14px; border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--slate) 70%, transparent); opacity: 0.25; transform: translateY(18px) scale(0.98);
+  transition: opacity 0.5s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s, background-color 0.4s;
+}
+.journey.is-horizontal .stop.is-on { opacity: 0.8; transform: none; }
+.journey.is-horizontal .stop:hover { opacity: 1; transform: translateY(-4px); }
+.journey.is-horizontal .stop.is-head {
+  opacity: 1; background: var(--slate); border-color: color-mix(in srgb, var(--lane) 60%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lane) 12%, transparent), 0 24px 60px -30px var(--lane);
+}
+@media (max-width: 1100px) { .journey__head { grid-template-columns: 1fr; } .journey.is-horizontal .gitlog { display: none; } }
+@media (max-width: 899px) { .gitlog { display: none; } }
+
+/* five achievements: the last one fills the open cell (3 columns) or the full row (2 columns) */
+@media (min-width: 901px) { .award:last-child:nth-child(3n+2) { grid-column: span 2; } }
+@media (min-width: 561px) and (max-width: 900px) { .award:last-child:nth-child(odd) { grid-column: span 2; } }

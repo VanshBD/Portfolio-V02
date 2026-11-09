@@ -48,20 +48,22 @@ export const principles = [
   },
 ];
 
-/* ── Journey, oldest first ── */
-export const journey = [
-  { when: "Jun 2023", title: "git init", text: "Started a BCA at Swarnim Startup & Innovation University and wrote my first code.", tag: "Start" },
-  { when: "Mar 2024", title: "Trainee at SwiftRut", text: "Joined SwiftRut Technologies as a trainee.", tag: "Career" },
-  { when: "Jul 2024", title: "MERN certified, A+", text: "Full Stack Development certificate from Red & White Multimedia Education.", tag: "Learning" },
-  { when: "2024", title: "Backend lead", text: "Full Stack Developer and Backend Lead at SwiftRut: 5 enterprise apps, a 6-person team, delivered before deadline.", tag: "Career" },
-  { when: "Oct 2024", title: "15 apps in a month", text: "Task managers, event platforms, inventory systems and more, shipped in one month.", tag: "Grind" },
-  { when: "Apr 2025", title: "AUM Industries", text: "Backend architect of the company's all-in-one platform, plus a hospital management system.", tag: "Career" },
-  { when: "Feb 2026", title: "Going freelance", text: "Started building end-to-end products for clients.", tag: "Career" },
-  { when: "May 2026", title: "PromptWars, 1st Runner Up", text: "Built and deployed an AI app in one day at PromptWars Ahmedabad.", tag: "Award" },
-  { when: "Jun 2026", title: "Pravasa Transworld", text: "A full visa platform with Yaksh Bambhroliya: 134 commits in 5 months.", tag: "Client" },
-  { when: "Aug 2026", title: "Hacker House Goa", text: "OVX-1 and ObscurPilot with Obscur Labs, and AFI Agent solo.", tag: "Event" },
-  { when: "Nov 2026", title: "La Europa goes live", text: "A study-abroad company's new site and admin panel, launched on 3 November.", tag: "Client" },
-  { when: "Now", title: "The next layer", text: "Learning blockchain, Solidity and Rust. Open to the next big build.", tag: "Next" },
+/* ── Journey, oldest first ──
+   Drawn as a git history. "branch" picks the lane in the commit graph:
+   main is the career line, builds are things shipped, hackathons are events. */
+export type JourneyBranch = "main" | "builds" | "hackathons";
+export const journey: { when: string; title: string; text: string; branch: JourneyBranch }[] = [
+  { when: "Jun 2023", title: "git init", text: "Started a BCA at Swarnim Startup & Innovation University and wrote my first code.", branch: "main" },
+  { when: "Mar 2024", title: "Trainee at SwiftRut", text: "Joined SwiftRut Technologies as a trainee.", branch: "main" },
+  { when: "2024", title: "Backend lead", text: "Full Stack Developer and Backend Lead at SwiftRut: 5 enterprise apps, a 6-person team, delivered before deadline.", branch: "main" },
+  { when: "Oct 2024", title: "15 apps in a month", text: "Task managers, event platforms, inventory systems and more, shipped in one month.", branch: "builds" },
+  { when: "Apr 2025", title: "AUM Industries", text: "Backend architect of the company's all-in-one platform, plus a hospital management system.", branch: "main" },
+  { when: "Feb 2026", title: "Going freelance", text: "Started building end-to-end products for clients.", branch: "main" },
+  { when: "May 2026", title: "PromptWars, 1st Runner Up", text: "Built and deployed an AI app in one day at PromptWars Ahmedabad.", branch: "hackathons" },
+  { when: "Jun 2026", title: "Pravasa Transworld", text: "A full visa platform with Yaksh Bambhroliya: 134 commits in 5 months.", branch: "builds" },
+  { when: "Aug 2026", title: "Hacker House Goa", text: "OVX-1 and ObscurPilot with Obscur Labs, and AFI Agent solo.", branch: "hackathons" },
+  { when: "Nov 2026", title: "La Europa goes live", text: "A study-abroad company's new site and admin panel, launched on 3 November.", branch: "builds" },
+  { when: "Now", title: "The next layer", text: "Learning blockchain, Solidity and Rust. Open to the next big build.", branch: "main" },
 ];
 
 /* ── Case studies with architecture diagrams ──
@@ -361,7 +363,6 @@ export const achievements = [
   { value: "6", label: "Hackathon builds", detail: "Hacker House Goa 2026 · Google Solution Challenge 2025 · GDG HackToSkill" },
   { value: "162", label: "LeetCode solved", detail: "including 33 hard" },
   { value: "16,500+", label: "GitHub contributions", detail: "in 2026" },
-  { value: "A+", label: "MERN certificate", detail: "Red & White Multimedia Education" },
 ];
 
 export const learning = [
