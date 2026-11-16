@@ -9,7 +9,7 @@ const body = Geist({ subsets: ["latin"], variable: "--font-body", display: "swap
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 const description =
-  "Full-Stack Developer in Ahmedabad focused on backend systems. Case studies with live architecture diagrams: Pravasa Transworld, AUM Industries, La Europa, AFI Agent, OVX-1.";
+  "Vansh Dobariya, Full-Stack Developer in Ahmedabad focused on backend systems. Case studies with live architecture diagrams: ObscurPilot, Pravasa Transworld, La Europa, AUM Industries and AFI Agent. Open to work worldwide.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Vansh Dobariya · Full-Stack Developer, backend systems",
   description,
   authors: [{ name: "Vansh Dobariya" }],
+  verification: { google: "1Qj3BfbdsmH0kAaqwbzmHBrivt2tePlBvJtoA4uf2jI" },
   keywords: ["Vansh Dobariya", "full-stack developer", "backend developer", "Node.js", "Next.js", "MongoDB", "Ahmedabad", "portfolio"],
   openGraph: {
     title: "Vansh Dobariya · I build the systems behind products",
