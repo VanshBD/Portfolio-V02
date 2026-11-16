@@ -45,7 +45,12 @@ export function Achievements({ pulse }: { pulse?: Contributions | null }) {
         <h2 className="h2" data-split>Proof under pressure.</h2>
         {pulse && <div data-reveal><GitHubPulse data={pulse} /></div>}
         <ul className="awards__list">
-          {achievements.map((a, i) => (
+          {achievements.map((a) => (
+            /* the contributions card shows the live count when GitHub answered */
+            a.label === "GitHub contributions" && pulse
+              ? { ...a, value: pulse.total.toLocaleString("en-US"), detail: "in the last year · live from GitHub" }
+              : a
+          )).map((a, i) => (
             <li key={a.label} className="award" data-reveal data-delay={(i % 3) * 0.06} data-spotlight>
               <span className="award__value">
                 {/^[\d,]+\+?$/.test(a.value)

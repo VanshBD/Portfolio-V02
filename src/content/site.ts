@@ -1491,9 +1491,9 @@ export const achievements = [
     detail: "Pravasa Transworld · La Europa · AUM Industries, all in daily use",
   },
   {
-    value: "Top 400",
-    label: "PromptWars Virtual",
-    detail: "Challenge 3 · Google for Developers × Hack2Skill",
+    value: "15",
+    label: "Apps in one month",
+    detail: "Task managers, event platforms, inventory systems · Oct 2024",
   },
   {
     value: "6",
@@ -1502,7 +1502,8 @@ export const achievements = [
       "Hacker House Goa 2026 · Google Solution Challenge 2025 · GDG HackToSkill",
   },
   { value: "162", label: "LeetCode solved", detail: "including 33 hard" },
-  { value: "16,500+", label: "GitHub contributions", detail: "in 2026" },
+  /* the home page swaps in the live count from GitHub; this is the fallback (and the résumé's figure) */
+  { value: "4,400+", label: "GitHub contributions", detail: "in the last year" },
 ];
 
 export const learning = [

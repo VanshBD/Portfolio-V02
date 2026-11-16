@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { profile } from "@/content/site";
 import { scroller } from "./Motion";
 
-const NAMES = ["Pravasa Transworld", "La Europa Education", "AUM Industries", "SwiftRut Technologies", "Hacker House Goa", "PromptWars Ahmedabad", "Obscur Labs", "Google Solution Challenge"];
+const NAMES = ["Pravasa Transworld", "La Europa Education", "AUM Industries", "SwiftRut Technologies", "Hacker House Goa", "Obscur Labs", "Google Solution Challenge"];
 
 /*
   Two bands drifting in opposite directions: who I've built for, and what
