@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cases, type CaseStudy as CS } from "@/content/site";
@@ -123,6 +124,7 @@ export function CaseStudy({ cs }: { cs: CS }) {
             <div className="case__links">
               {cs.live && <a className="btn btn--primary btn--sm" href={cs.live} target="_blank" rel="noopener noreferrer" data-magnetic data-cursor="Open">Visit live site ↗</a>}
               {cs.code && <a className="btn btn--ghost btn--sm" href={cs.code} target="_blank" rel="noopener noreferrer" data-magnetic data-cursor="Code">Read the code ↗</a>}
+              <Link className="btn btn--link btn--sm" href={`/work/${cs.id}`}>Read the full case study →</Link>
             </div>
           </div>
         </div>

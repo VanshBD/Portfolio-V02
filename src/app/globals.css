@@ -1343,3 +1343,50 @@ html[data-xray="on"] main :where(img, video) { filter: grayscale(1) contrast(1.1
   -webkit-background-clip: text; background-clip: text;
 }
 .case__index small { margin-top: 0.5em; font: 600 0.8rem var(--font-mono-stack); letter-spacing: 0.04em; color: var(--steel); -webkit-text-fill-color: var(--steel); }
+
+/* ── case-study pages (/work/[id]) ── */
+.cpage { min-height: 100vh; background: var(--ink); color: var(--paper); }
+.cpage__nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 18px; padding-bottom: 18px; }
+.cpage__brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--paper); text-decoration: none; }
+.cpage__crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 0.78rem; color: var(--steel); }
+.cpage__crumbs li + li::before { content: "/"; margin-right: 8px; color: var(--line-strong); }
+.cpage__crumbs a { color: var(--dim); text-decoration: none; }
+.cpage__crumbs a:hover { color: var(--paper); }
+.cpage__crumbs [aria-current] { color: var(--paper); }
+.cpage__head { padding-top: clamp(40px, 8vw, 90px); }
+.cpage__index { margin: 0 0 14px; font-size: 0.78rem; color: var(--signal); letter-spacing: 0.08em; }
+.cpage__title { margin: 8px 0 16px; font: 800 clamp(2.6rem, 7vw, 5rem)/0.95 var(--font-display-stack); letter-spacing: -0.045em; }
+.cpage__summary { max-width: 46em; margin: 0 0 12px; font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--dim); line-height: 1.55; }
+.cpage__role { margin: 0 0 22px; font-size: 0.8rem; color: var(--steel); }
+.cpage__links { display: flex; flex-wrap: wrap; gap: 10px; }
+.cpage__metrics { margin-top: 36px; }
+.cpage__section { padding-top: clamp(56px, 8vw, 96px); }
+.cpage__h2 { margin: 0 0 22px; font: 600 0.78rem var(--font-mono-stack); letter-spacing: 0.16em; text-transform: uppercase; color: var(--signal); }
+.cx { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 32px; align-items: start; }
+.cx__controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.cpage__story { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-width: 52em; }
+.cpage__story li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 18px 0; border-top: 1px solid var(--line); }
+.cpage__n { font-size: 0.8rem; color: var(--signal); padding-top: 4px; }
+.cpage__story h3 { margin: 0 0 6px; font: 700 1.2rem var(--font-display-stack); letter-spacing: -0.01em; }
+.cpage__story p { margin: 0; color: var(--dim); line-height: 1.6; }
+.cpage__parts { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.cpage__parts li { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--slate); }
+.cpage__parts b { font-size: 0.95rem; }
+.cpage__parts span { font-size: 0.74rem; color: var(--steel); }
+.cpage__parts p { margin: 6px 0 0; font-size: 0.86rem; color: var(--dim); line-height: 1.5; }
+.cpage__cta { padding-top: clamp(70px, 10vw, 120px); }
+.cpage__cta-title { max-width: 18em; margin: 8px 0 22px; font: 800 clamp(1.8rem, 4vw, 2.8rem)/1.05 var(--font-display-stack); letter-spacing: -0.03em; }
+.cpage__pager { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; margin-top: clamp(60px, 8vw, 100px); margin-bottom: 40px; }
+.cpage__pg { display: grid; gap: 4px; padding: 16px 18px; border-radius: 16px; border: 1px solid var(--line); background: var(--slate); color: var(--paper); text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+.cpage__pg:hover { border-color: var(--signal); transform: translateY(-2px); }
+.cpage__pg span { font-size: 0.74rem; color: var(--steel); }
+.cpage__pg.is-mid { align-content: center; justify-items: center; }
+.cpage__pg.is-next { text-align: right; }
+@media (max-width: 900px) {
+  .cx { grid-template-columns: 1fr; }
+  .cpage__crumbs { display: none; }
+}
+@media (max-width: 560px) {
+  .cpage__pager { grid-template-columns: 1fr 1fr; }
+  .cpage__pg.is-mid { display: none; }
+}

@@ -62,7 +62,7 @@ export function JsonLd() {
             "@type": "CreativeWork",
             name: c.name,
             description: c.summary,
-            url: `${siteUrl}/#case-${c.id}`,
+            url: `${siteUrl}/work/${c.id}`,
             creator: { "@id": `${siteUrl}/#person` },
             ...(c.live ? { sameAs: c.live } : {}),
           },
