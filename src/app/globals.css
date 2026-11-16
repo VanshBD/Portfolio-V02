@@ -1148,50 +1148,80 @@ html[data-xray="on"] main :where(img, video) { filter: grayscale(1) contrast(1.1
    PLAYFUL: desk, duck, visit commit, deploy pipeline, 404
    ============================================================ */
 
-/* ── Contact intro: the pitch beside the desk ── */
-.contact__intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px); gap: 32px; align-items: center; }
-@media (max-width: 960px) { .contact__intro { grid-template-columns: 1fr; } }
+/* ── Vansh's desk: sky band, two clocks, a shared-hours timeline ── */
+.desk { margin-top: 36px; border-radius: 22px; border: 1px solid var(--line); background: var(--slate); overflow: hidden; }
+.desk--loading { min-height: 360px; }
+.desk__band { position: relative; height: 120px; border-bottom: 1px solid var(--line); }
+.desk__sky { display: block; width: 100%; height: 100%; }
+.desk__sky .desk__sky-top { stop-color: #0b1430; } .desk__sky .desk__sky-bottom { stop-color: #26346a; }
+.desk__sky.is-dawn .desk__sky-top { stop-color: #4a5d9a; } .desk__sky.is-dawn .desk__sky-bottom { stop-color: #ffae7a; }
+.desk__sky.is-day .desk__sky-top { stop-color: #3d8fe0; } .desk__sky.is-day .desk__sky-bottom { stop-color: #c4e7ff; }
+.desk__sky.is-dusk .desk__sky-top { stop-color: #33295f; } .desk__sky.is-dusk .desk__sky-bottom { stop-color: #ff8a65; }
+.desk__arc { fill: none; stroke: rgba(255, 255, 255, 0.28); stroke-width: 1.2; stroke-dasharray: 3 7; }
+.desk__sun { fill: #ffd166; }
+.desk__sun-glow { fill: rgba(255, 209, 102, 0.3); transform-box: fill-box; transform-origin: center; animation: sun-pulse 4s ease-in-out infinite; }
+@keyframes sun-pulse { 50% { transform: scale(1.3); opacity: 0.55; } }
+.desk__moon { fill: #f4f1ff; } .desk__moon-cut { fill: #1d2955; }
+.desk__star { fill: #fff; animation: twinkle 2.8s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: 0.15; } }
+.desk__city rect { fill: #090d18; }
+.desk__sky.is-day .desk__city rect { fill: #263d63; }
+.desk__sky.is-dawn .desk__city rect { fill: #1d2547; }
+.desk__windows rect { fill: #ffd166; animation: window 6s steps(1) infinite; }
+@keyframes window { 0%, 75% { opacity: 0.95; } 76%, 100% { opacity: 0.2; } }
+.desk__band-label { position: absolute; right: 14px; top: 10px; padding: 3px 9px; border-radius: 999px; font-size: 0.66rem; color: #fff; background: rgba(5, 10, 20, 0.45); backdrop-filter: blur(6px); }
 
-/* ── Vansh's desk ── */
-.desk {
-  display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: center; padding: 16px; border-radius: 18px;
-  border: 1px solid var(--line); background: var(--slate);
-}
-.desk--loading { min-height: 168px; }
-.desk__sky { width: 100%; height: auto; display: block; border-radius: 12px; }
-.desk__sky .desk__sky-top { stop-color: #0b1430; } .desk__sky .desk__sky-bottom { stop-color: #23305e; }
-.desk__sky.is-dawn .desk__sky-top { stop-color: #4a5d9a; } .desk__sky.is-dawn .desk__sky-bottom { stop-color: #ff9a6b; }
-.desk__sky.is-day .desk__sky-top { stop-color: #3d9bf0; } .desk__sky.is-day .desk__sky-bottom { stop-color: #bfe6ff; }
-.desk__sky.is-dusk .desk__sky-top { stop-color: #3b2d6b; } .desk__sky.is-dusk .desk__sky-bottom { stop-color: #ff7e5f; }
-.desk__sun { fill: #ffd166; } .desk__sun-glow { fill: rgba(255, 209, 102, 0.28); animation: sun-pulse 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-@keyframes sun-pulse { 50% { transform: scale(1.25); opacity: 0.6; } }
-.desk__moon { fill: #f4f1ff; } .desk__moon-cut { fill: #1b2550; }
-.desk__star { fill: #fff; animation: twinkle 2.6s ease-in-out infinite; }
-@keyframes twinkle { 50% { opacity: 0.2; } }
-.desk__city rect { fill: #0a0f1d; }
-.desk__sky.is-day .desk__city rect { fill: #24395c; }
-.desk__windows rect { fill: #ffd166; animation: window 5s steps(1) infinite; }
-@keyframes window { 0%, 70% { opacity: 1; } 71%, 100% { opacity: 0.25; } }
-.desk__info { min-width: 0; }
-.desk__where { margin: 0; font-size: 0.74rem; color: var(--steel); letter-spacing: 0.04em; }
-.desk__status { display: flex; align-items: center; gap: 8px; margin: 6px 0 8px; font: 700 1.05rem/1.25 var(--font-display-stack); }
-.desk__status i { width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--signal); }
+.desk__clocks { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 20px; padding: 22px 26px 8px; }
+.desk__who { margin: 0; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--steel); }
+.desk__time { margin: 4px 0 6px; font: 800 clamp(2.3rem, 4.6vw, 3.4rem)/1 var(--font-display-stack); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.desk__time small { margin-left: 8px; font: 600 0.9rem var(--font-mono-stack); letter-spacing: 0; color: var(--steel); }
+.desk__colon { animation: colon 1s steps(1) infinite; }
+@keyframes colon { 50% { opacity: 0.25; } }
+.desk__status { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 0.92rem; color: var(--dim); }
+.desk__status i { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--signal); }
 .desk__status.is-work i { background: var(--ok); box-shadow: 0 0 10px var(--ok); animation: live 2s infinite; }
 .desk__status.is-sleep i { background: var(--steel); }
-.desk__overlap { margin: 0 0 10px; font-size: 0.86rem; color: var(--dim); }
-.desk__overlap b { color: var(--paper); }
-.desk__bar { position: relative; height: 10px; border-radius: 6px; background: var(--slate-2); overflow: hidden; }
-.desk__bar span { position: absolute; top: 0; bottom: 0; }
-.desk__you { background: color-mix(in srgb, var(--paper) 18%, transparent); }
-.desk__vansh { background: color-mix(in srgb, var(--ok) 70%, transparent); mix-blend-mode: normal; }
-.desk__now { width: 2px; margin-left: -1px; background: var(--signal); box-shadow: 0 0 8px var(--signal); }
-.desk__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; font-size: 0.68rem; color: var(--steel); }
-.desk__legend span { display: inline-flex; align-items: center; gap: 6px; }
-.desk__legend i { width: 12px; height: 6px; border-radius: 3px; }
-.desk__legend i.is-you { background: color-mix(in srgb, var(--paper) 30%, transparent); }
-.desk__legend i.is-vansh { background: var(--ok); }
-.desk__online { color: var(--ok); }
-@media (max-width: 520px) { .desk { grid-template-columns: 1fr; } .desk__sky { max-height: 120px; object-fit: cover; } }
+.desk__status.is-you i { background: #8fa8ff; }
+.desk__clock--you { text-align: right; }
+.desk__clock--you .desk__status { justify-content: flex-end; }
+.desk__shared { display: grid; justify-items: center; gap: 2px; padding: 12px 18px; border-radius: 16px; background: var(--ok-soft); border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent); text-align: center; }
+.desk__shared b { font: 800 1.5rem var(--font-display-stack); color: var(--ok); letter-spacing: -0.02em; }
+.desk__shared span { font-size: 0.76rem; color: var(--dim); }
+
+.desk__timeline { padding: 14px 26px 6px; }
+.desk__rows { position: relative; display: grid; grid-template-columns: 58px minmax(0, 1fr); align-items: center; row-gap: 10px; }
+.desk__label { font-size: 0.72rem; color: var(--steel); }
+.desk__track { position: relative; height: 14px; border-radius: 8px; background: var(--slate-2); overflow: hidden; }
+.desk__seg { position: absolute; top: 0; bottom: 0; border-radius: 8px; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.desk.is-in .desk__seg { transform: scaleX(1); }
+.desk__seg.is-vansh { background: linear-gradient(90deg, color-mix(in srgb, var(--signal) 70%, transparent), var(--signal)); }
+.desk__seg.is-you { background: linear-gradient(90deg, color-mix(in srgb, #8fa8ff 70%, transparent), #8fa8ff); transition-delay: 0.15s; }
+.desk__ticks { position: relative; height: 16px; font-size: 0.64rem; color: var(--steel); }
+.desk__ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.desk__ticks span:first-child { transform: none; }
+.desk__ticks span:last-child { transform: translateX(-100%); }
+.desk__overlay { position: absolute; left: 58px; right: 0; top: -6px; bottom: 20px; pointer-events: none; }
+.desk__both {
+  position: absolute; top: 0; bottom: 0; border-radius: 8px; border: 1.5px solid var(--ok);
+  background: color-mix(in srgb, var(--ok) 12%, transparent); opacity: 0; transition: opacity 0.6s 0.9s;
+}
+.desk.is-in .desk__both { opacity: 1; animation: both-glow 2.6s ease-in-out 1.5s infinite; }
+@keyframes both-glow { 50% { box-shadow: 0 0 18px -2px var(--ok); } }
+.desk__now { position: absolute; top: -4px; bottom: 0; width: 2px; margin-left: -1px; background: var(--paper); border-radius: 2px; }
+.desk__now em { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 0.6rem; color: var(--paper); }
+.desk__note { margin: 0; padding: 4px 26px 20px; font-size: 0.8rem; color: var(--steel); }
+[data-theme="light"] .desk__seg.is-you { background: linear-gradient(90deg, #6f86e6, #3a5bd9); }
+[data-theme="light"] .desk__status.is-you i { background: #3a5bd9; }
+
+@media (max-width: 760px) {
+  .desk__band { height: 96px; }
+  .desk__clocks { grid-template-columns: 1fr 1fr; padding: 18px 18px 4px; }
+  .desk__shared { grid-column: 1 / -1; grid-row: 2; justify-items: start; text-align: left; display: flex; align-items: baseline; gap: 8px; padding: 10px 14px; }
+  .desk__timeline { padding: 14px 18px 4px; }
+  .desk__rows { grid-template-columns: 46px minmax(0, 1fr); }
+  .desk__overlay { left: 46px; }
+  .desk__note { padding: 4px 18px 18px; }
+}
 
 /* ── deploy pipeline in the composer ── */
 .compose__stage { display: inline; animation: stage-in 0.3s ease-out; }
@@ -1264,3 +1294,8 @@ html[data-xray="on"] main :where(img, video) { filter: grayscale(1) contrast(1.1
 .nf__packet { fill: var(--signal); filter: drop-shadow(0 0 6px var(--signal)); }
 .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
 @media (max-width: 700px) { .footer { padding-bottom: 76px; } }
+
+/* journey: the orange main line is the trunk, drawn last and a little thicker */
+.jgraph__lit path { stroke-width: 2.6; }
+.jgraph__lit .jgraph__main { stroke-width: 3.6; }
+@media (max-width: 760px) { .desk__time { font-size: 2rem; } .desk__status { font-size: 0.8rem; } .desk__time small { margin-left: 4px; font-size: 0.75rem; } }

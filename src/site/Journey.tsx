@@ -170,14 +170,15 @@ export function Journey() {
               </defs>
               {/* the whole history, faint */}
               <g className="jgraph__ghost">
-                <path d={MAIN} />
                 {BRANCHES.map((b, i) => <path key={i} d={b.d} />)}
+                <path d={MAIN} />
                 <path d={`M${X(N - 1)} ${LANE.main} H${W - 30}`} className="jgraph__next" />
               </g>
-              {/* the part HEAD has walked, in colour */}
+              {/* the part HEAD has walked, in colour: branches first, so every
+                  fork and merge tucks under the orange main line */}
               <g clipPath="url(#jgraph-lit)" className="jgraph__lit">
-                <path d={MAIN} style={{ stroke: laneVar("main") }} />
                 {BRANCHES.map((b, i) => <path key={i} d={b.d} style={{ stroke: laneVar(b.lane) }} />)}
+                <path d={MAIN} className="jgraph__main" style={{ stroke: laneVar("main") }} />
               </g>
               <text x={W - 30} y={LANE.main - 12} className="jgraph__nexttext" textAnchor="end">next: your project?</text>
               {journey.map((j, i) => (

@@ -32,13 +32,6 @@ function status(min: number) {
   return { text: "learning Rust and Solidity, probably", tone: "late" };
 }
 
-/* minutes of overlap between two daily windows given in UTC minutes */
-function overlap(a1: number, a2: number, b1: number, b2: number) {
-  let total = 0;
-  for (const k of [-DAY, 0, DAY]) total += Math.max(0, Math.min(a2, b2 + k) - Math.max(a1, b1 + k));
-  return total;
-}
-
 /* a daily window [start, start+len) in a 0..1440 frame, split if it wraps */
 function segments(start: number, len: number) {
   const s = mod(start);
@@ -50,40 +43,52 @@ const fmtHours = (m: number) => {
   return h && r ? `${h}h ${r}m` : h ? `${h} hour${h === 1 ? "" : "s"}` : `${r} min`;
 };
 
+/* a seeded skyline, so it looks the same on every render */
+const SKYLINE = (() => {
+  const out: { x: number; w: number; h: number; win: [number, number][] }[] = [];
+  let seed = 7, x = 0;
+  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  while (x < 1000) {
+    const w = 24 + Math.round(rnd() * 36), h = 12 + Math.round(rnd() * 34);
+    const win: [number, number][] = [];
+    for (let wy = 120 - h + 8; wy < 112; wy += 11) for (let wx = x + 6; wx < x + w - 8; wx += 10) if (rnd() > 0.55) win.push([wx, wy]);
+    out.push({ x, w, h, win });
+    x += w + 2 + Math.round(rnd() * 6);
+  }
+  return out;
+})();
+
+/* a wide band of sky over Ahmedabad: the sun or moon crosses it with the hour */
 function Sky({ min }: { min: number }) {
   const h = min / 60;
   const phase = h >= 6 && h < 8 ? "dawn" : h >= 8 && h < 17.5 ? "day" : h >= 17.5 && h < 19.5 ? "dusk" : "night";
   const sunUp = h >= 6 && h < 19;
   const t = sunUp ? (min - 360) / 780 : mod(min - 1140) / 660;
-  const x = 12 + t * 136, y = 72 - Math.sin(t * Math.PI) * 54;
+  const x = 40 + t * 920, y = 100 - Math.sin(t * Math.PI) * 66;
   const lit = phase === "night" || phase === "dusk";
   return (
-    <svg viewBox="0 0 160 96" className={`desk__sky is-${phase}`} aria-hidden="true">
+    <svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMax slice" className={`desk__sky is-${phase}`} aria-hidden="true">
       <defs>
         <linearGradient id="desk-sky" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" className="desk__sky-top" />
           <stop offset="1" className="desk__sky-bottom" />
         </linearGradient>
       </defs>
-      <rect width="160" height="96" rx="12" fill="url(#desk-sky)" />
-      {phase === "night" && [[18, 14], [44, 26], [70, 10], [96, 22], [128, 14], [146, 32], [30, 40], [112, 40]].map(([sx, sy], i) => (
-        <circle key={i} cx={sx} cy={sy} r={i % 3 ? 0.9 : 1.3} className="desk__star" style={{ animationDelay: `${i * 0.37}s` }} />
+      <rect width="1000" height="120" fill="url(#desk-sky)" />
+      {phase === "night" && Array.from({ length: 34 }, (_, i) => (
+        <circle key={i} cx={(i * 211) % 1000} cy={8 + ((i * 37) % 60)} r={i % 4 ? 0.9 : 1.6} className="desk__star" style={{ animationDelay: `${(i % 7) * 0.4}s` }} />
       ))}
+      <path d={`M40 100 Q 500 ${100 - 132} 960 100`} className="desk__arc" />
       {sunUp ? (
-        <g transform={`translate(${x} ${y})`}><circle r="11" className="desk__sun-glow" /><circle r="6.5" className="desk__sun" /></g>
+        <g transform={`translate(${x} ${y})`}><circle r="22" className="desk__sun-glow" /><circle r="11" className="desk__sun" /></g>
       ) : (
-        <g transform={`translate(${x} ${y})`}><circle r="6.5" className="desk__moon" /><circle r="6.5" cx="3" cy="-2" className="desk__moon-cut" /></g>
+        <g transform={`translate(${x} ${y})`}><circle r="10" className="desk__moon" /><circle r="10" cx="5" cy="-3" className="desk__moon-cut" /></g>
       )}
-      {/* a small skyline; windows light up after dark */}
-      <g className="desk__city">
-        <rect x="6" y="66" width="18" height="30" /><rect x="26" y="56" width="14" height="40" /><rect x="42" y="72" width="20" height="24" />
-        <rect x="64" y="50" width="12" height="46" /><rect x="78" y="62" width="22" height="34" /><rect x="102" y="70" width="14" height="26" />
-        <rect x="118" y="58" width="18" height="38" /><rect x="138" y="68" width="16" height="28" />
-      </g>
+      <g className="desk__city">{SKYLINE.map((b) => <rect key={b.x} x={b.x} y={120 - b.h} width={b.w} height={b.h} />)}</g>
       {lit && (
         <g className="desk__windows">
-          {[[10, 72], [16, 80], [29, 62], [33, 74], [67, 56], [67, 70], [82, 68], [92, 76], [122, 64], [128, 76], [142, 74]].map(([wx, wy], i) => (
-            <rect key={i} x={wx} y={wy} width="3" height="3" style={{ animationDelay: `${i * 0.6}s` }} />
+          {SKYLINE.flatMap((b) => b.win).map(([wx, wy], i) => (
+            <rect key={i} x={wx} y={wy} width="4" height="4" style={{ animationDelay: `${(i % 9) * 0.7}s` }} />
           ))}
         </g>
       )}
@@ -91,63 +96,119 @@ function Sky({ min }: { min: number }) {
   );
 }
 
+function clock(d: Date, timeZone?: string) {
+  const parts = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone }).formatToParts(d);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return { h: get("hour"), m: get("minute"), ap: get("dayPeriod").toLowerCase() };
+}
+
+function visitorStatus(min: number) {
+  const h = min / 60;
+  if (h < 6) return "your night";
+  if (h < 9) return "your morning";
+  if (h < 18) return "your working day";
+  if (h < 22) return "your evening";
+  return "your night";
+}
+
+/* split [start, start+len) on a 24 h circle into one or two pieces */
+const pieces = (start: number, len: number) => segments(start, len).map(([s, l]) => ({ s, l }));
+function intersect(a: { s: number; l: number }[], b: { s: number; l: number }[]) {
+  const out: { s: number; l: number }[] = [];
+  a.forEach((x) => b.forEach((y) => {
+    const s = Math.max(x.s, y.s), e = Math.min(x.s + x.l, y.s + y.l);
+    if (e > s) out.push({ s, l: e - s });
+  }));
+  return out;
+}
+
 export function Desk() {
   const [now, setNow] = useState<number | null>(null);
+  const [seen, setSeen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const t0 = window.setTimeout(() => setNow(Date.now()), 0);
     const iv = window.setInterval(() => setNow(Date.now()), 1000);
     return () => { clearTimeout(t0); clearInterval(iv); };
   }, []);
 
+  /* the timeline bars grow in the first time the card is seen */
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || seen) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } }, { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [now, seen]);
+
   if (now === null) return <div className="desk desk--loading" aria-hidden="true" />;
 
   const d = new Date(now);
   const utcMin = d.getUTCHours() * 60 + d.getUTCMinutes();
   const vanshMin = mod(utcMin + desk.utcOffsetMin);
-  const visitorOff = -d.getTimezoneOffset();
-  const visitorMin = mod(utcMin + visitorOff);
+  const off = -d.getTimezoneOffset();
+  const youMin = mod(utcMin + off);
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone ?? "";
-  const visitorCity = tz.split("/").pop()?.replace(/_/g, " ") || "your city";
-  const same = visitorOff === desk.utcOffsetMin;
-  const time = (zone?: string) => new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: zone }).format(d);
+  const city = tz.split("/").pop()?.replace(/_/g, " ") || "Your city";
+  const same = off === desk.utcOffsetMin;
 
-  /* Vansh's core hours and the visitor's 9 to 6, both in UTC minutes */
+  /* everything on the timeline is in the visitor's own local time */
   const len = (desk.endHour - desk.startHour) * 60;
-  const vStart = desk.startHour * 60 - desk.utcOffsetMin;
-  const yStart = 9 * 60 - visitorOff;
-  const shared = overlap(vStart, vStart + len, yStart, yStart + 540);
+  const vansh = pieces(desk.startHour * 60 - desk.utcOffsetMin + off, len);
+  const you = [{ s: 540, l: 540 }];
+  const both = intersect(vansh, you);
+  const shared = both.reduce((n, p) => n + p.l, 0);
   const st = status(vanshMin);
-  const working = st.tone === "work";
-
-  /* the bar is the visitor's local day, midnight to midnight */
-  const vanshLocal = segments(vStart + visitorOff, len);
-  const bar = (m: number) => (m / DAY) * 100;
+  const v = clock(d, desk.timeZone), y = clock(d);
+  const pct = (m: number) => `${(m / DAY) * 100}%`;
   const hourLabel = (h: number) => `${((h + 11) % 12) + 1} ${h < 12 ? "am" : "pm"}`;
 
   return (
-    <div className="desk" data-spotlight>
-      <Sky min={vanshMin} />
-      <div className="desk__info">
-        <p className="desk__where mono">{desk.city} · {time(desk.timeZone)} IST</p>
-        <p className={`desk__status is-${st.tone}`}><i aria-hidden="true" />{st.text}</p>
-        <p className="desk__overlap">
-          {same
-            ? <>You&rsquo;re on Indian time too, so our days line up completely.</>
-            : shared > 0
-              ? <>You&rsquo;re in <b>{visitorCity}</b> ({time()}). Your 9 to 6 overlaps <b>{fmtHours(shared)}</b> with my core hours.</>
-              : <>You&rsquo;re in <b>{visitorCity}</b> ({time()}). Our 9 to 6 days don&rsquo;t overlap, so I shift my hours for calls.</>}
-        </p>
-        <div className="desk__bar" role="img" aria-label={`Your day, with Vansh's core hours (${hourLabel(desk.startHour)} to ${hourLabel(desk.endHour)} IST) and your 9 to 6 marked`}>
-          <span className="desk__you" style={{ left: `${bar(540)}%`, width: `${bar(540)}%` }} />
-          {vanshLocal.map(([s, l], i) => <span key={i} className="desk__vansh" style={{ left: `${bar(s)}%`, width: `${bar(l)}%` }} />)}
-          <span className="desk__now" style={{ left: `${bar(visitorMin)}%` }} />
-        </div>
-        <p className="desk__legend mono">
-          <span><i className="is-you" />your 9 to 6</span>
-          <span><i className="is-vansh" />my {hourLabel(desk.startHour)} to {hourLabel(desk.endHour)} IST</span>
-          {working && <span className="desk__online">● online hours now</span>}
-        </p>
+    <div ref={ref} className={`desk${seen ? " is-in" : ""}`}>
+      <div className="desk__band">
+        <Sky min={vanshMin} />
+        <span className="desk__band-label mono">sky over {desk.city}, live</span>
       </div>
+
+      <div className="desk__clocks">
+        <div className="desk__clock">
+          <p className="desk__who mono">{desk.city} · Vansh</p>
+          <p className="desk__time">{v.h}<span className="desk__colon">:</span>{v.m}<small>{v.ap}</small></p>
+          <p className={`desk__status is-${st.tone}`}><i aria-hidden="true" />{st.text}</p>
+        </div>
+        <div className="desk__shared">
+          <b>{shared ? fmtHours(shared) : "No overlap"}</b>
+          <span>{same ? "same time zone" : shared ? "of shared working time" : "I shift my hours for calls"}</span>
+        </div>
+        <div className="desk__clock desk__clock--you">
+          <p className="desk__who mono">{same ? "You · also on IST" : `${city} · you`}</p>
+          <p className="desk__time">{y.h}<span className="desk__colon">:</span>{y.m}<small>{y.ap}</small></p>
+          <p className="desk__status is-you"><i aria-hidden="true" />{visitorStatus(youMin)}</p>
+        </div>
+      </div>
+
+      <div className="desk__timeline" role="img" aria-label={`Timeline in your local time: Vansh works ${hourLabel(desk.startHour)} to ${hourLabel(desk.endHour)} IST, you work 9 to 6, overlapping ${shared ? fmtHours(shared) : "not at all"}.`}>
+        <div className="desk__rows">
+          <span className="desk__label mono">Vansh</span>
+          <div className="desk__track">{vansh.map((p, i) => <span key={i} className="desk__seg is-vansh" style={{ left: pct(p.s), width: pct(p.l) }} />)}</div>
+          <span className="desk__label mono">You</span>
+          <div className="desk__track">{you.map((p, i) => <span key={i} className="desk__seg is-you" style={{ left: pct(p.s), width: pct(p.l) }} />)}</div>
+          <span />
+          <div className="desk__ticks mono">
+            {[0, 6, 12, 18, 24].map((h) => <span key={h} style={{ left: pct(h * 60) }}>{hourLabel(h % 24)}</span>)}
+          </div>
+          <div className="desk__overlay" aria-hidden="true">
+            {both.map((p, i) => <span key={i} className="desk__both" style={{ left: pct(p.s), width: pct(p.l) }} />)}
+            <span className="desk__now" style={{ left: pct(youMin) }}><em className="mono">now</em></span>
+          </div>
+        </div>
+      </div>
+
+      <p className="desk__note">
+        In your local time. My core hours are {hourLabel(desk.startHour)} to {hourLabel(desk.endHour)} IST
+        {shared ? "." : ", so I move my day to meet yours."}
+      </p>
     </div>
   );
 }
