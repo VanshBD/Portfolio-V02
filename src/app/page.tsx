@@ -11,6 +11,7 @@ import { SkillsMap } from "@/site/SkillsMap";
 import { Contact } from "@/site/Contact";
 import { Marquee } from "@/site/Marquee";
 import { Cursor } from "@/site/Cursor";
+import { XRay } from "@/site/XRay";
 
 export default function Home() {
   return (
@@ -43,6 +44,7 @@ export default function Home() {
       <Footer />
       <Motion />
       <Cursor />
+      <XRay />
     </>
   );
 }
