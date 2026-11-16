@@ -10,22 +10,94 @@ const NW = 150, NH = 58;
 const spread = (x: number) => (x < 100 ? x : x < 300 ? x + 34 : x + 68);
 const box = (n: DNode) => ({ x: spread(n.x), y: n.y, w: n.w ?? NW, h: n.h ?? NH });
 
-/* A curved connector between two boxes, leaving and entering on the facing sides. */
-function connector(a: DNode, b: DNode) {
-  const A = box(a), B = box(b);
-  const ac = { x: A.x + A.w / 2, y: A.y + A.h / 2 };
-  const bc = { x: B.x + B.w / 2, y: B.y + B.h / 2 };
-  if (B.x >= A.x + A.w - 4) {
-    const sx = A.x + A.w, sy = ac.y, ex = B.x, ey = bc.y, mx = (sx + ex) / 2;
-    return `M${sx} ${sy} C${mx} ${sy} ${mx} ${ey} ${ex} ${ey}`;
-  }
-  if (A.x >= B.x + B.w - 4) {
-    const sx = A.x, sy = ac.y, ex = B.x + B.w, ey = bc.y, mx = (sx + ex) / 2;
-    return `M${sx} ${sy} C${mx} ${sy} ${mx} ${ey} ${ex} ${ey}`;
-  }
-  const down = bc.y > ac.y;
-  const sx = ac.x, sy = down ? A.y + A.h : A.y, ex = bc.x, ey = down ? B.y : B.y + B.h, my = (sy + ey) / 2;
-  return `M${sx} ${sy} C${sx} ${my} ${ex} ${my} ${ex} ${ey}`;
+/*
+  Connector routing.
+  - Each edge leaves and enters on the facing sides of its boxes.
+  - When several edges share a side, they get their own evenly spaced port,
+    ordered by where each one is going, so fans never knot into one point
+    and don't cross right at the box.
+  - A vertical edge that would run through another box in the same column
+    bends around the column's open side instead.
+*/
+type Side = "l" | "r" | "t" | "b";
+interface Leg { id: string; a: DNode; b: DNode; sa: Side; sb: Side; around: boolean }
+
+const centre = (n: DNode) => { const B = box(n); return { x: B.x + B.w / 2, y: B.y + B.h / 2 }; };
+
+function plan(cs: CaseStudy): Leg[] {
+  const byId = Object.fromEntries(cs.nodes.map((n) => [n.id, n]));
+  return cs.edges.map((e) => {
+    const a = byId[e.from], b = byId[e.to], A = box(a), B = box(b);
+    const id = `${e.from}>${e.to}`;
+    if (B.x >= A.x + A.w - 4) return { id, a, b, sa: "r", sb: "l", around: false };
+    if (A.x >= B.x + B.w - 4) return { id, a, b, sa: "l", sb: "r", around: false };
+    const top = Math.min(A.y + A.h, B.y + B.h), bottom = Math.max(A.y, B.y);
+    const blocked = cs.nodes.some((n) => {
+      if (n === a || n === b) return false;
+      const N = box(n);
+      return N.x < Math.max(A.x + A.w, B.x + B.w) && N.x + N.w > Math.min(A.x, B.x) && N.y > top - 2 && N.y + N.h < bottom + 2;
+    });
+    if (blocked) {
+      const side: Side = A.x + A.w / 2 > W / 2 ? "l" : "r";
+      return { id, a, b, sa: side, sb: side, around: true };
+    }
+    const down = B.y > A.y;
+    return { id, a, b, sa: down ? "b" : "t", sb: down ? "t" : "b", around: false };
+  });
+}
+
+/* evenly spaced ports per node side, sorted by the other end's position */
+function ports(legs: Leg[]) {
+  const groups = new Map<string, { leg: Leg; end: "a" | "b"; key: number }[]>();
+  legs.forEach((leg) => {
+    (["a", "b"] as const).forEach((end) => {
+      const node = end === "a" ? leg.a : leg.b, other = end === "a" ? leg.b : leg.a;
+      const side = end === "a" ? leg.sa : leg.sb;
+      const o = centre(other);
+      const k = `${node.id}:${side}`;
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k)!.push({ leg, end, key: side === "l" || side === "r" ? o.y : o.x });
+    });
+  });
+  const at = new Map<string, { x: number; y: number }>();
+  groups.forEach((list, k) => {
+    const [nodeId, side] = k.split(":") as [string, Side];
+    const node = (list[0].end === "a" ? list[0].leg.a : list[0].leg.b);
+    const N = box(node);
+    list.sort((p, q) => p.key - q.key);
+    const span = side === "l" || side === "r" ? N.h * 0.56 : N.w * 0.5;
+    const gap = list.length > 1 ? Math.min(14, span / (list.length - 1)) : 0;
+    list.forEach((p, i) => {
+      const off = (i - (list.length - 1) / 2) * gap;
+      const pt =
+        side === "l" ? { x: N.x, y: N.y + N.h / 2 + off } :
+        side === "r" ? { x: N.x + N.w, y: N.y + N.h / 2 + off } :
+        side === "t" ? { x: N.x + N.w / 2 + off, y: N.y } :
+        { x: N.x + N.w / 2 + off, y: N.y + N.h };
+      at.set(`${p.leg.id}:${p.end}:${nodeId}`, pt);
+    });
+  });
+  return at;
+}
+
+function routes(cs: CaseStudy): Record<string, string> {
+  const legs = plan(cs);
+  const at = ports(legs);
+  const out: Record<string, string> = {};
+  legs.forEach((leg) => {
+    const s = at.get(`${leg.id}:a:${leg.a.id}`)!, e = at.get(`${leg.id}:b:${leg.b.id}`)!;
+    if (leg.around) {
+      const dir = leg.sa === "r" ? 1 : -1, bulge = 34 * dir;
+      out[leg.id] = `M${s.x} ${s.y} C${s.x + bulge} ${s.y} ${e.x + bulge} ${e.y} ${e.x} ${e.y}`;
+    } else if (leg.sa === "l" || leg.sa === "r") {
+      const mx = (s.x + e.x) / 2;
+      out[leg.id] = `M${s.x} ${s.y} C${mx} ${s.y} ${mx} ${e.y} ${e.x} ${e.y}`;
+    } else {
+      const my = (s.y + e.y) / 2;
+      out[leg.id] = `M${s.x} ${s.y} C${s.x} ${my} ${e.x} ${my} ${e.x} ${e.y}`;
+    }
+  });
+  return out;
 }
 
 interface Props {
@@ -38,6 +110,7 @@ interface Props {
 export function Diagram({ cs, step, replay, reduced }: Props) {
   const [focus, setFocus] = useState<string | null>(null);
   const byId = useMemo(() => Object.fromEntries(cs.nodes.map((n) => [n.id, n])), [cs]);
+  const paths = useMemo(() => routes(cs), [cs]);
   const s = cs.steps[step];
   const activeNodes = useMemo(() => new Set(s.nodes), [s]);
   const activeEdges = useMemo(() => {
@@ -59,7 +132,7 @@ export function Diagram({ cs, step, replay, reduced }: Props) {
         {cs.edges.map((e) => {
           const id = `${e.from}>${e.to}`;
           const on = activeEdges.has(id);
-          const d = connector(byId[e.from], byId[e.to]);
+          const d = paths[id];
           return (
             <g key={id} className={`edge${on ? " is-on" : ""}`}>
               <path d={d} className="edge__line" />
