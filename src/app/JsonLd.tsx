@@ -17,11 +17,32 @@ export function JsonLd() {
         email: `mailto:${profile.email}`,
         jobTitle: profile.role,
         description: profile.sub,
-        address: { "@type": "PostalAddress", addressLocality: "Ahmedabad", addressRegion: "Gujarat", addressCountry: "IN" },
-        alumniOf: { "@type": "CollegeOrUniversity", name: "Swarnim Startup & Innovation University" },
-        knowsAbout: ["Backend development", "Node.js", "Express", "TypeScript", "Next.js", "React", "MongoDB", "Redis", "REST APIs", "RBAC", "WebSockets", "AI integration", "RAG"],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Ahmedabad",
+          addressRegion: "Gujarat",
+          addressCountry: "IN",
+        },
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Swarnim Startup & Innovation University",
+        },
+        knowsAbout: [
+          "Backend development",
+          "Node.js",
+          "Express",
+          "TypeScript",
+          "Next.js",
+          "React",
+          "MongoDB",
+          "Redis",
+          "REST APIs",
+          "RBAC",
+          "WebSockets",
+          "AI integration",
+          "RAG",
+        ],
         sameAs: [profile.linkedin, profile.github],
-        award: ["1st Runner Up, PromptWars Ahmedabad 2026"],
       },
       {
         "@type": "WebSite",
@@ -49,5 +70,12 @@ export function JsonLd() {
       },
     ],
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
 }
