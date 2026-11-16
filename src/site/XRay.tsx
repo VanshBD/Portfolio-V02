@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { achievements, cases, journey, principles, projectIndex, skillLayers, work } from "@/content/site";
 import { scrollToTarget } from "./Motion";
+import { act } from "./Playful";
 
 /*
   X-ray mode: press X (or the scan button in the top bar) and the page shows
@@ -97,6 +98,7 @@ export function XRay() {
     document.documentElement.dataset.xray = "on";
     setPhase("in");
     announce(true);
+    act("xray");
     timer.current = window.setTimeout(() => setPhase("on"), SCAN_MS);
   }, []);
 

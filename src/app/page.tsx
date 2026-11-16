@@ -12,6 +12,7 @@ import { Contact } from "@/site/Contact";
 import { Marquee } from "@/site/Marquee";
 import { Cursor } from "@/site/Cursor";
 import { XRay } from "@/site/XRay";
+import { ConsoleHello } from "@/site/Playful";
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
       <Motion />
       <Cursor />
       <XRay />
+      <ConsoleHello />
     </>
   );
 }

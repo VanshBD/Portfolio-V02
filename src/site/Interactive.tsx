@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { profile } from "@/content/site";
+import { act } from "./Playful";
 
 /* Adds .is-in once the element scrolls into view. */
 function useInView<T extends Element>() {
@@ -96,7 +97,10 @@ export function BlockToy() {
   const chain = build(blocks);
   const broken = chain.some((b) => !b.valid);
 
-  const tamper = () => setBlocks((b) => b.map((x, i) => (i === 1 ? { ...x, data: x.data === "Vansh learns Solidity" ? "Vansh learns Solidity (edited!)" : "Vansh learns Solidity" } : x)));
+  const tamper = () => {
+    if (!chain[1].data.includes("edited")) act("tamper");
+    setBlocks((b) => b.map((x, i) => (i === 1 ? { ...x, data: x.data === "Vansh learns Solidity" ? "Vansh learns Solidity (edited!)" : "Vansh learns Solidity" } : x)));
+  };
 
   const remine = () => {
     setMining(true);
@@ -145,20 +149,47 @@ export function BlockToy() {
   );
 }
 
-/* ── Contact: write your request, send it as an email ── */
+/* ── Contact: write your request, then "deploy" it to your email app ── */
+const STAGES = ["lint", "test", "build", "deploy"] as const;
+
 export function ComposeRequest() {
   const [name, setName] = useState("");
   const [idea, setIdea] = useState("");
-  const [sent, setSent] = useState(false);
+  const [stage, setStage] = useState(-1); // -1 idle, 0..3 running, 4 done
+  const timers = useRef<number[]>([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   const body = JSON.stringify({ from: name || "you", building: idea || "something crazy", reply: "please" }, null, 2);
+  const running = stage >= 0 && stage < STAGES.length;
+  const done = stage === STAGES.length;
+
+  const note = (i: number) => {
+    if (i === 0) {
+      if (!idea.trim()) return "idea is empty, sending a short hello";
+      return name.trim() ? "name and idea look good" : "idea looks good, signing as \"you\"";
+    }
+    if (i === 1) return "1 passed: a human will read this";
+    if (i === 2) return "email drafted with your idea";
+    return "handed to your email app";
+  };
 
   const send = (e: FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Let's build: ${idea.slice(0, 60) || "an idea"}`);
-    const text = encodeURIComponent(`Hi Vansh,\n\n${idea || "I'd like to talk about a project."}\n\n${name ? `- ${name}` : ""}`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${text}`;
-    setSent(true);
+    if (running) return;
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    setStage(0);
+    STAGES.forEach((_, i) => {
+      timers.current.push(window.setTimeout(() => {
+        setStage(i + 1);
+        if (i === STAGES.length - 1) {
+          const subject = encodeURIComponent(`Let's build: ${idea.slice(0, 60) || "an idea"}`);
+          const text = encodeURIComponent(`Hi Vansh,\n\n${idea || "I'd like to talk about a project."}\n\n${name ? `- ${name}` : ""}`);
+          window.location.href = `mailto:${profile.email}?subject=${subject}&body=${text}`;
+          act("sent");
+        }
+      }, 520 * (i + 1)));
+    });
   };
 
   return (
@@ -170,14 +201,28 @@ export function ComposeRequest() {
         <label className="field">What are you building?
           <input value={idea} onChange={(e) => setIdea(e.target.value)} maxLength={140} placeholder="e.g. a booking platform for clinics" />
         </label>
-        <button type="submit" className="btn btn--primary" data-magnetic>Send request</button>
+        <button type="submit" className="btn btn--primary" data-magnetic disabled={running}>
+          {running ? "Deploying…" : done ? "Send again" : "Send request"}
+        </button>
         <p className="compose__note">Opens your email app with this message ready. Nothing is stored here.</p>
       </div>
       <pre className="compose__req mono" aria-label="Your request, as JSON">
         <span className="compose__line"><b>POST</b> /collaborate <i>HTTP/1.1</i></span>
         {"\n"}<span className="compose__dim">to: {profile.email}</span>
         {"\n\n"}{body}
-        {"\n\n"}<span className={`compose__res${sent ? " is-ok" : ""}`}>{sent ? "← 200 OK · your email app is open" : "← waiting to send"}</span>
+        {stage >= 0 && (
+          <span className="compose__pipe" role="status">
+            {"\n\n"}<span className="compose__dim">$ deploy request</span>
+            {STAGES.map((s, i) => i <= stage && (
+              <span key={s} className={`compose__stage${i < stage ? " is-done" : " is-run"}`}>
+                {"\n"}<i>{i < stage ? "✓" : "◌"}</i> {s.padEnd(7)}<em>{i < stage ? note(i) : "running…"}</em>
+              </span>
+            ))}
+          </span>
+        )}
+        {"\n\n"}<span className={`compose__res${done ? " is-ok" : ""}`}>
+          {done ? "← 200 OK · press send in your email app" : running ? "← deploying…" : "← waiting to send"}
+        </span>
       </pre>
     </form>
   );

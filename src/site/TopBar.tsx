@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { scrollToTarget } from "./Motion";
+import { act } from "./Playful";
 
 const LINKS = [
   { href: "#work", label: "Work", match: ["work", "more"] },
@@ -54,6 +55,7 @@ export function TopBar() {
   const toggle = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
+    act("theme");
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("vd-theme", next); } catch { /* storage blocked */ }
   };

@@ -37,7 +37,11 @@ export function RequestLog() {
     );
     document.querySelectorAll<HTMLElement>("[data-path]").forEach((s) => io.observe(s));
     const tick = window.setInterval(() => setNow(performance.now()), 500);
-    return () => { clearTimeout(t); io.disconnect(); clearInterval(tick); };
+    /* fold into the pill at the footer, so the visit commit there stays readable */
+    const foot = document.querySelector(".footer");
+    const fio = new IntersectionObserver(([e]) => { if (e.isIntersecting) setOpen(false); }, { threshold: 0.2 });
+    if (foot) fio.observe(foot);
+    return () => { clearTimeout(t); io.disconnect(); fio.disconnect(); clearInterval(tick); };
   }, []);
 
   const head = entries[0];

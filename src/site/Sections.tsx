@@ -1,6 +1,7 @@
 import { principles, achievements, learning, profile } from "@/content/site";
 import { CheckPills } from "./CheckPills";
 import { HowGraphic, BlockToy } from "./Interactive";
+import { Duck, VisitCommit } from "./Playful";
 
 /* ── How I build ── */
 export function HowIBuild() {
@@ -100,9 +101,13 @@ export function Learning() {
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="container footer__inner">
-        <span>© 2026 {profile.name} · {profile.city}</span>
-        <span className="mono">Built end to end: Next.js · GSAP · SVG</span>
+      <div className="container">
+        <VisitCommit />
+        <div className="footer__inner">
+          <span>© 2026 {profile.name} · {profile.city}</span>
+          <Duck />
+          <span className="mono">Built end to end: Next.js · GSAP · SVG · press X</span>
+        </div>
       </div>
     </footer>
   );

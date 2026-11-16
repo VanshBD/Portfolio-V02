@@ -365,6 +365,24 @@ export const achievements = [
   { value: "16,500+", label: "GitHub contributions", detail: "in 2026" },
 ];
 
+/* ── "Vansh's desk": local time and the working hours the overlap is measured against ── */
+export const desk = {
+  timeZone: "Asia/Kolkata",
+  utcOffsetMin: 330, // IST, no daylight saving
+  city: "Ahmedabad",
+  startHour: 10, // core hours, local time
+  endHour: 19,
+};
+
+/* ── Rubber duck: real bugs from the case studies, told to the duck ── */
+export const duckStories = [
+  { title: "The open vault", where: "Pravasa", bug: "Passports and ID documents were reachable by link.", fix: "Every personal file moved to private storage with one-hour links, and personal data is encrypted at rest." },
+  { title: "The silent mail", where: "Pravasa", bug: "For a day every email said \"sent\" but never arrived: the provider was quietly rejecting a bad sender.", fix: "Fixed the sender, and now every sender address is checked when the server starts." },
+  { title: "The vanishing email", where: "La Europa", bug: "Moving the domain dropped the company's email records.", fix: "Rebuilt them, added DMARC, and verified them live before any mail bounced." },
+  { title: "The database switch", where: "La Europa", bug: "We started on Supabase and had to move mid-build.", fix: "Moved to Firestore and Cloudinary so the browser never touches the database and every upload goes through the server." },
+  { title: "The slow dashboard", where: "AUM Industries", bug: "Enterprise API responses were too slow on heavy data.", fix: "Redis caching and MongoDB index tuning: responses got 48% faster." },
+];
+
 export const learning = [
   { name: "How blockchains work", state: "Learning" },
   { name: "Solidity smart contracts", state: "Learning" },
