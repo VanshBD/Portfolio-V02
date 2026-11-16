@@ -156,10 +156,26 @@ export function ComposeRequest() {
   const [name, setName] = useState("");
   const [idea, setIdea] = useState("");
   const [stage, setStage] = useState(-1); // -1 idle, 0..3 running, 4 done
+  const [plan, setPlan] = useState<string[]>([]);
   const timers = useRef<number[]>([]);
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  const body = JSON.stringify({ from: name || "you", building: idea || "something crazy", reply: "please" }, null, 2);
+  /* a plan sent from "Sketch your system" lands here */
+  useEffect(() => {
+    const onSketch = (e: Event) => {
+      const d = (e as CustomEvent<{ idea: string; plan: string[] }>).detail;
+      setIdea(d.idea.slice(0, 140));
+      setPlan(d.plan);
+      setStage(-1);
+    };
+    window.addEventListener("vd:sketch", onSketch);
+    return () => window.removeEventListener("vd:sketch", onSketch);
+  }, []);
+
+  const body = JSON.stringify(
+    { from: name || "you", building: idea || "something crazy", ...(plan.length ? { sketch: `${plan.length} parts, plan attached` } : {}), reply: "please" },
+    null, 2,
+  );
   const running = stage >= 0 && stage < STAGES.length;
   const done = stage === STAGES.length;
 
@@ -184,7 +200,8 @@ export function ComposeRequest() {
         setStage(i + 1);
         if (i === STAGES.length - 1) {
           const subject = encodeURIComponent(`Let's build: ${idea.slice(0, 60) || "an idea"}`);
-          const text = encodeURIComponent(`Hi Vansh,\n\n${idea || "I'd like to talk about a project."}\n\n${name ? `- ${name}` : ""}`);
+          const sketch = plan.length ? `\n\nMy sketch, and how you'd build it:\n${plan.map((p) => `- ${p}`).join("\n")}` : "";
+          const text = encodeURIComponent(`Hi Vansh,\n\n${idea || "I'd like to talk about a project."}${sketch}\n\n${name ? `- ${name}` : ""}`);
           window.location.href = `mailto:${profile.email}?subject=${subject}&body=${text}`;
           act("sent");
         }

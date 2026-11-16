@@ -7,10 +7,11 @@ import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { profile } from "@/content/site";
 import { HeroNetwork } from "./HeroNetwork";
+import { StreakPill } from "./GitHubPulse";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
-export function Hero() {
+export function Hero({ streak }: { streak?: number }) {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(() => {
@@ -40,6 +41,7 @@ export function Hero() {
           <span>{profile.role}</span><span aria-hidden="true">·</span>
           <span>{profile.focus}</span><span aria-hidden="true">·</span>
           <span>{profile.city}</span>
+          {streak ? <StreakPill streak={streak} /> : null}
         </div>
         <div className="hero__ctas" data-hero-in>
           <a href="#work" className="btn btn--primary" data-magnetic>See how I build</a>

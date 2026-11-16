@@ -1,7 +1,9 @@
 import { principles, achievements, learning, profile } from "@/content/site";
 import { CheckPills } from "./CheckPills";
 import { HowGraphic, BlockToy } from "./Interactive";
-import { Duck, VisitCommit } from "./Playful";
+import { VisitCommit } from "./Playful";
+import { GitHubPulse } from "./GitHubPulse";
+import type { Contributions } from "@/lib/github";
 
 /* ── How I build ── */
 export function HowIBuild() {
@@ -35,12 +37,13 @@ export function HowIBuild() {
 }
 
 /* ── Achievements ── */
-export function Achievements() {
+export function Achievements({ pulse }: { pulse?: Contributions | null }) {
   return (
     <section id="awards" className="section awards" data-section="awards" data-path="/awards">
       <div className="container">
         <p className="eyebrow" data-reveal>Achievements</p>
         <h2 className="h2" data-split>Proof under pressure.</h2>
+        {pulse && <div data-reveal><GitHubPulse data={pulse} /></div>}
         <ul className="awards__list">
           {achievements.map((a, i) => (
             <li key={a.label} className="award" data-reveal data-delay={(i % 3) * 0.06} data-spotlight>
@@ -105,8 +108,7 @@ export function Footer() {
         <VisitCommit />
         <div className="footer__inner">
           <span>© 2026 {profile.name} · {profile.city}</span>
-          <Duck />
-          <span className="mono">Built end to end: Next.js · GSAP · SVG · press X</span>
+          <span className="mono">Built end to end: Next.js · GSAP · SVG · press X · ? for shortcuts</span>
         </div>
       </div>
     </footer>

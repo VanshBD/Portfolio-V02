@@ -13,15 +13,19 @@ import { Marquee } from "@/site/Marquee";
 import { Cursor } from "@/site/Cursor";
 import { XRay } from "@/site/XRay";
 import { ConsoleHello } from "@/site/Playful";
+import { getContributions } from "@/lib/github";
+import { SketchPad } from "@/site/SketchPad";
+import { Shortcuts } from "@/site/Shortcuts";
 
-export default function Home() {
+export default async function Home() {
+  const github = await getContributions("VanshBD");
   return (
     <>
       <a className="skip" href="#work">Skip to the work</a>
       <TopBar />
       <RequestLog />
       <main>
-        <Hero />
+        <Hero streak={github?.streak} />
         <Marquee />
         <HowIBuild />
         <Journey />
@@ -38,8 +42,9 @@ export default function Home() {
         {cases.map((cs) => <CaseStudy key={cs.id} cs={cs} />)}
         <WorkGrid />
         <SkillsMap />
-        <Achievements />
+        <Achievements pulse={github} />
         <Learning />
+        <SketchPad />
         <Contact />
       </main>
       <Footer />
@@ -47,6 +52,7 @@ export default function Home() {
       <Cursor />
       <XRay />
       <ConsoleHello />
+      <Shortcuts />
     </>
   );
 }

@@ -54,6 +54,8 @@ const SPECS: Spec[] = [
   { sel: "#awards", level: 1, name: "<Achievements />", file: "src/site/Sections.tsx", kind: "server", data: `achievements[${achievements.length}]`, does: "server HTML; counters tick up when seen" },
   { sel: "#learning", level: 1, name: "<Learning />", file: "src/site/Sections.tsx", kind: "server", does: "server HTML around one client island" },
   { sel: ".chain", level: 2, name: "<BlockToy />", file: "src/site/Interactive.tsx", kind: "client", does: "FNV-1a hashes, proof of work mined in your browser" },
+  { sel: "#sketch", level: 1, name: "<SketchPad />", file: "src/site/SketchPad.tsx", kind: "client", does: "auto-wires your parts, reviews them and writes a build plan" },
+  { sel: ".pulse", level: 2, name: "<GitHubPulse />", file: "src/site/GitHubPulse.tsx", kind: "client", data: "github.com calendar, cached 1 h", does: "fetched on the server, hourly; the heatmap sweeps in" },
   { sel: "#contact", level: 1, name: "<Contact />", file: "src/site/Contact.tsx", kind: "client", does: "the closing section; email, links and the composer" },
   { sel: ".compose", level: 2, name: "<ComposeRequest />", file: "src/site/Interactive.tsx", kind: "client", does: "builds the JSON as you type; sends through mailto" },
   { sel: ".footer", level: 1, name: "<Footer />", file: "src/site/Sections.tsx", kind: "server", does: "static HTML" },
