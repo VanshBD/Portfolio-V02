@@ -365,15 +365,6 @@ export const achievements = [
   { value: "16,500+", label: "GitHub contributions", detail: "in 2026" },
 ];
 
-/* ── "Vansh's desk": local time and the working hours the overlap is measured against ── */
-export const desk = {
-  timeZone: "Asia/Kolkata",
-  utcOffsetMin: 330, // IST, no daylight saving
-  city: "Ahmedabad",
-  startHour: 10, // core hours, local time
-  endHour: 19,
-};
-
 /* ── Rubber duck: real bugs from the case studies, told to the duck ── */
 export const duckStories = [
   { title: "The open vault", where: "Pravasa", bug: "Passports and ID documents were reachable by link.", fix: "Every personal file moved to private storage with one-hour links, and personal data is encrypted at rest." },

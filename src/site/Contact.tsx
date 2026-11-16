@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { profile } from "@/content/site";
 import { ComposeRequest } from "./Interactive";
-import { Desk } from "./Playful";
 
 /* The request path ends here: the response comes back 200 OK. */
 export function Contact() {
@@ -41,7 +40,6 @@ export function Contact() {
           I&rsquo;m open to full-time roles anywhere in the world, hybrid, remote or on-site, and to building something new
           with you. Tell me what you&rsquo;re building and I&rsquo;ll tell you how I&rsquo;d build it.
         </p>
-        <div data-reveal><Desk /></div>
         <div data-reveal><ComposeRequest /></div>
         <div className="contact__actions" data-reveal>
           <a className="btn btn--primary btn--lg" href={`mailto:${profile.email}`} data-magnetic>Email me</a>
