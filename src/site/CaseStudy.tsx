@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { CaseStudy as CS } from "@/content/site";
+import { cases, type CaseStudy as CS } from "@/content/site";
 import { Diagram } from "./Diagram";
 import { PravasaDemo, LaEuropaDemo } from "./Demos";
 import { PilotDemo } from "./PilotDemo";
@@ -51,7 +51,7 @@ export function CaseStudy({ cs }: { cs: CS }) {
     <section id={`case-${cs.id}`} className="case" data-section="work" data-path={`/work/${cs.id}`}>
       <div className="container">
         <header className="case__head">
-          <span className="case__index" aria-hidden="true" data-parallax="0.35">{cs.index}</span>
+          <span className="case__index" aria-hidden="true" data-parallax="0.35">{cs.index}<small>/{String(cases.length).padStart(2, "0")}</small></span>
           <div>
             <p className="eyebrow" data-reveal>{cs.kicker}</p>
             <h3 className="case__name" data-split>{cs.name}</h3>

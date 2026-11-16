@@ -1335,3 +1335,11 @@ html[data-xray="on"] main :where(img, video) { filter: grayscale(1) contrast(1.1
   color: color-mix(in srgb, var(--paper) 6%, transparent); -webkit-text-stroke: 0;
   -webkit-mask-image: linear-gradient(180deg, #000 35%, transparent 95%); mask-image: linear-gradient(180deg, #000 35%, transparent 95%);
 }
+
+/* case numbers: solid gradient digits (outlined text showed the font's inner strokes) */
+.case__index {
+  display: inline-flex; align-items: flex-start; gap: 6px; -webkit-text-stroke: 0; color: transparent;
+  background: linear-gradient(180deg, var(--signal) 0%, color-mix(in srgb, var(--signal) 45%, transparent) 55%, color-mix(in srgb, var(--paper) 6%, transparent) 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+.case__index small { margin-top: 0.5em; font: 600 0.8rem var(--font-mono-stack); letter-spacing: 0.04em; color: var(--steel); -webkit-text-fill-color: var(--steel); }
