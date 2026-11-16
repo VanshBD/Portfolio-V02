@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Vansh Dobariya · Full-Stack Developer, backend systems",
   description,
   authors: [{ name: "Vansh Dobariya" }],
-  verification: { google: "1Qj3BfbdsmH0kAaqwbzmHBrivt2tePlBvJtoA4uf2jI" },
+  verification: { google: "D3GWkUjtGU-D-VWClhn544bM1BuxWoCJJSyup0dkmt0" },
   keywords: ["Vansh Dobariya", "full-stack developer", "backend developer", "Node.js", "Next.js", "MongoDB", "Ahmedabad", "portfolio"],
   openGraph: {
     title: "Vansh Dobariya · I build the systems behind products",
