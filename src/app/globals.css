@@ -1324,3 +1324,14 @@ html[data-xray="on"] main :where(img, video) { filter: grayscale(1) contrast(1.1
 .sk__muted { margin: 0 0 14px; color: var(--steel); font-size: 0.86rem; }
 @media (max-width: 960px) { .sk { grid-template-columns: 1fr; } .sk__out { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .sk__canvas { height: 380px; } .sk__node { font-size: 0.76rem; padding: 7px 8px 7px 10px; } }
+
+/* journey: solid cards (upcoming ones fade their text, not the card), and a
+   softly filled year with no outline, so nothing crosses the cards */
+.journey.is-horizontal .stop, .journey.is-horizontal .stop.is-on { opacity: 1; background: var(--slate); }
+.journey.is-horizontal .stop > * { opacity: 0.3; transition: opacity 0.5s; }
+.journey.is-horizontal .stop.is-on > * { opacity: 0.85; }
+.journey.is-horizontal .stop.is-head > *, .journey.is-horizontal .stop:hover > * { opacity: 1; }
+.journey.is-horizontal .journey__year {
+  color: color-mix(in srgb, var(--paper) 6%, transparent); -webkit-text-stroke: 0;
+  -webkit-mask-image: linear-gradient(180deg, #000 35%, transparent 95%); mask-image: linear-gradient(180deg, #000 35%, transparent 95%);
+}
